@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
 from passlib.hash import sha256_crypt
-from validate_email import validate_email
 import sys
 import re
 
@@ -13,37 +12,38 @@ class validate():
     # The check_username() requirement user enter their user name,
     # length should be less than 7,valid input is number,character ,"_""-"
     def check_username(self):
-        username = input("Enter your username : ")
         while True:
             username = input("Enter your username : ")
             if len(username) < 7:
-                if re.match("^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$", username) != None:
+                if re.match("^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$", username) is not None:
                     print("Valid user name")
                     break
 
             else:
                 False
                 print("Invalid user name")
-            
         self.username = username
         return (self.username)
-    # The check_password() will ask user enter password for twice,the password will be :
-    # length between 6 to 12 
-    # at least one character 
-    # at least one number 
-    # at least one symbol between "[@#$]" 
+    # The check_password() will ask user
+    # enter password for twice,the password will be :
+
+    # length between 6 to 12
+    # at least one character
+    # at least one number
+    # at least one symbol between "[!@#$]"
     # space is not allowed
 
     def check_password(self):
         while True:
             password = input("Enter your password : ")
-            confirmed_password = input("Enter your password again: ")   
+            confirmed_password = input("Enter your password again: ")
 
             if (len(password) < 6 or len(password) > 12):
-                print("password length is between 6 to 12,please check and enter again")
+                print("""password length is between 6 to 12,
+                please check and enter again""")
 
             elif not re.search("[a-zA-Z]", password):
-                print("""password needs at least one character, 
+                print("""password needs at least one character,
                     please check and enter again""")
 
             elif not re.search("[0-9]", password):
@@ -70,7 +70,8 @@ class validate():
 
         return (self.hashedPassword)
 
-    # The check_name() will ask user to enter first name and last name, then check if it is alphabetically
+    # The check_name() will ask user to enter first name and last name,
+    # then check if it is alphabetically
     def check_name(self):
         while True:
             fname = input("Enter your first name : ")
@@ -83,7 +84,6 @@ class validate():
                 print("Please enter characters A-Z only")
                 break
         self.name = full_name
-       
         return (self.name)
 
     # The check_email() will ask user enter email address and check the style
@@ -99,7 +99,7 @@ class validate():
             if (re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email)):
                 print("Valid email address")
                 # conn.close()
-                break          
+                break
             else:
                 False
                 print("Invalid email,try again")
@@ -108,7 +108,8 @@ class validate():
 
         return (self.email)
 
-    # The check_login_tatus() will ask user to enter their signed email address and password,
+    # The check_login_tatus() will ask user to enter their
+    # signed email address and password,
     def check_login_status(self):
         while True:
             user_email = input("Enter your email address : ")
@@ -120,15 +121,13 @@ class validate():
             if results is None:
                 print("User is not found!")
             else:
-                    if sha256_crypt.verify(passWord, results[1]):            
+                    if sha256_crypt.verify(passWord, results[1]):
                         print("Welcome!"+results[0])
                         break
                     else:
                         print("Incorrect password,please check!")
-                
             # break
 
         self.user_email = user_email
         self.passWord = passWord
         return(self.user_email, self.passWord)
-        
