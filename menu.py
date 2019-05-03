@@ -3,7 +3,7 @@ import sqlite3
 from bcrypt import hashpw, gensalt,checkpw
 import sys
 from validation import validate
-
+from passlib.hash import sha256_crypt
 databaseName='/home/pi/A2/profile.db'
 conn=sqlite3.connect(databaseName)
 
@@ -21,27 +21,16 @@ class menu():
             check=validate()
             if choice ==("1"):
                 username=check.check_username()
-                hashPassword,password=check.check_password()
+                hashPassword=check.check_password()
                 name=check.check_name()
                 email=check.check_email()
                 curs=conn.cursor()
                 curs.execute("INSERT INTO profile_user VALUES ((?),(?),(?),(?))", (username,hashPassword,name,email))
-                curs.execute("INSERT INTO profile_user_login VALUES ((?),(?))", (username,password))
                 conn.commit()
                 print("\nSigned up,please log in\n")
                 
             elif choice==("2"):
-                userName,passWord=check.check_login_status()
-                #userName=input("Enter your username : ")
-                #passWord=input("Enter your password : ")
-                hashPassWord=hashpw(passWord.encode('utf8'), gensalt(13))
-                #checkpw(passWord, hashPassWord):
-                #curs=conn.cursor()
-                #curs.execute('SELECT * FROM profile_user WHERE username =(?) AND password=(?)',(userName,hashPassWord,)) 
-                #if curs.fetchone() is not None:
-                    #print ("Welcome")
-                #else:
-                    #print ("Login failed")
+                user_Email,passWord=check.check_login_status()
 
             elif choice==("0"):
                 sys.exit()
