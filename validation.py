@@ -14,7 +14,7 @@ class validate():
     def check_username(self):
         while True:
             username = input("Enter your username : ")
-            if len(username) < 7:
+            if len(username) < 10:
                 if re.match("^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$", username) is not None:
                     print("Valid user name")
                     break
@@ -96,6 +96,8 @@ class validate():
             if(str(email) == result[3]):
                 False
                 print("Email is already used,please use another one.")'''
+
+                # TO DO ----------------- check for existing email in database ------------
             if (re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email)):
                 print("Valid email address")
                 # conn.close()
@@ -122,12 +124,12 @@ class validate():
                 print("User is not found!")
             else:
                     if sha256_crypt.verify(passWord, results[1]):
-                        print("Welcome!"+results[0])
+                        print("Login successful for  "+results[0])
                         break
                     else:
-                        print("Incorrect password,please check!")
+                        print("Incorrect password, please check!")
             # break
 
         self.user_email = user_email
         self.passWord = passWord
-        return(self.user_email, self.passWord)
+        return(self.user_email)

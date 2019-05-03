@@ -3,7 +3,7 @@ import sqlite3
 import sys
 from validation import validate
 from passlib.hash import sha256_crypt
-
+from client import Client
 
 databaseName = 'profile.db'
 conn = sqlite3.connect(databaseName)
@@ -32,7 +32,9 @@ class menu():
                 print("\nSigned up,please log in\n")
 
             elif choice == ("2"):
-                user_Email, passWord = check.check_login_status()
+                user_Email = check.check_login_status()
+                
+                Client.get_details(user_Email)
 
             elif choice == ("0"):
                 sys.exit()
