@@ -75,17 +75,17 @@ class validate():
        
         return (self.name)
 
-    #The check_email() will ask user enter email address and check the style
+    #The check_email() will ask user enter email address and check the style, if email is already used,user must choose a new email to pass the next function
     def check_email(self):
         while True:
             email=input("Enter your email :")
-            '''curs=conn.cursor()
+            curs=conn.cursor()
             curs.execute('SELECT * FROM profile_user WHERE Email =(?)',(email,))
             result = curs.fetchone()
-            if(str(email) == result[3]):
+            if (result is not None):
                 False
-                print("Email is already used,please use another one.")'''
-            if (re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email) ):
+                print("Email is already used,please use another one.")
+            elif (re.match(r"^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$", email) ):
                 print("Valid email address")
                 #conn.close()
                 break          
@@ -115,7 +115,7 @@ class validate():
                     else:
                         print ("Incorrect password,please check!")
                 
-            #break
+            
 
         self.user_email=user_email
         self.passWord=passWord
