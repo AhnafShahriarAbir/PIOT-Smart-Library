@@ -25,7 +25,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print("User connected: " + data.decode())
             
             conn.sendall(data)
-        
         print("Disconnecting from client.")
     print("Closing listening socket.")
 print("Done.")
