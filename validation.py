@@ -125,8 +125,8 @@ class validate():
                             data = s.recv(4096)
                             print(user_email+" is connected to Server")
                             library_menu.display_menu(user_email)
-                        print("Done.")
-
+                            
+                            
                         
                         break
                     else:
