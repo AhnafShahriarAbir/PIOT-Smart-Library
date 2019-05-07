@@ -2,8 +2,8 @@
 import sqlite3
 import sys
 
-# databaseName = 'dummy_library.db'
-# conn = sqlite3.connect(databaseName)
+databaseName = 'profile.db'
+conn = sqlite3.connect(databaseName)
 
 
 class library_menu():
