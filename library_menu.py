@@ -31,7 +31,7 @@ class library_menu():
                 print("Returning book")
 
             elif choice == ("4"):
-                sys.exit()
+                break
 
             else:
                 print("Invalid selection,please enter number 1, 2, 3 or 4")
