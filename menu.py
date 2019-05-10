@@ -34,6 +34,7 @@ class menu():
                 user_Email,passWord=check.check_login_status()
                 
             elif choice==("0"):
+                
                 sys.exit()
 
             else :

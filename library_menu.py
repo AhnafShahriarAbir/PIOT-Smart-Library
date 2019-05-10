@@ -35,6 +35,7 @@ class library_menu():
 
             elif choice == ("4"):
                 print("enter any key to exit.....")
+                print("log out")
                 sys.exit()
 
             else:
