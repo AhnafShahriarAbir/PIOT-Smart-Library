@@ -4,7 +4,7 @@ if you want to know spinx
 2. mkdir demo
 3. In demo directory,create two folder named:doc and src,src is to store sample demo code (will be our    code)
 3. cd demo
-4. spinx-quicksatrt
+4. sphinx-quicksatrt
 5. fill up information
 6. Go to the demo/doc folder ,change config.py ,mine version is uncomment the line 13-15,and add extension as below:
 
