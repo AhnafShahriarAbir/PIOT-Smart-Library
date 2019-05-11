@@ -15,17 +15,10 @@ class Client():
     def get_details(user_email):
         
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind(ADDRESS)
-
             print("Connecting to Server")
             s.connect(ADDRESS)
-            data = s.recv(4096)
-
+           
             s.sendall(user_email.encode())
-            s.listen()
-            data = s.recv(4096)
-            user = data.decode()
-            print("User logged out: " + user)
             
         print("Done.")
         

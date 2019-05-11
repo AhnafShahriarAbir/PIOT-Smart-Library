@@ -12,67 +12,84 @@ ma = Marshmallow()
 # Declaring the model.
 class Book(db.Model):
     __tablename__ = "Book"
-    BookID = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    BookID = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Title = db.Column(db.Text)
+    Author = db.Column(db.Text)
+    PublishedDate = db.Column(db.Date)
     # Username = db.Column(db.String(256), unique = True)
 
-    def __init__(self, Title, BookID = None):
+    def __init__(self, Title, Author, PublishedDate, BookID=None):
         self.BookID = BookID
         self.Title = Title
+        self.Author = Author
+        self.PublishedDate = PublishedDate
+
 
 class BookSchema(ma.Schema):
     # Reference: https://github.com/marshmallow-code/marshmallow/issues/377#issuecomment-261628415
-    def __init__(self, strict = True, **kwargs):
-        super().__init__(strict = strict, **kwargs)
+    def __init__(self, strict=True, **kwargs):
+        super().__init__(strict=strict, **kwargs)
     
     class Meta:
         # Fields to expose.
-        fields = ("BookID", "Title")
+        fields = ("BookID", "Title", "Author", "PublishedDate")
 
 bookSchema = BookSchema()
-booksSchema = BookSchema(many = True)
+booksSchema = BookSchema(many=True)
 
-# Endpoint to show all people.
-@api.route("/book", methods = ["GET"])
+
+# Endpoint to show all books.
+@api.route("/book", methods=["GET"])
 def getBooks():
     books = Book.query.all()
     result = booksSchema.dump(books)
 
     return jsonify(result.data)
 
+
 # Endpoint to get Book by id.
-@api.route("/book/<id>", methods = ["GET"])
+@api.route("/book/<id>", methods=["GET"])
 def getBook(id):
     book = Book.query.get(id)
 
     return bookSchema.jsonify(book)
 
-# Endpoint to create new Book.
-@api.route("/book", methods = ["POST"])
-def addBook():
-    title = request.json["Title"]
 
-    newBook = Book(Title = title)
+# Endpoint to create new Book.
+@api.route("/book", methods=["POST"])
+def addBook():
+    ids = request.json["id"]
+    title = request.json["title"]
+    author = request.json["author"]
+    pdate = request.json["pdate"]
+
+    newBook = Book(BookID=ids, Title=title, Author=author, PublishedDate=pdate)
 
     db.session.add(newBook)
     db.session.commit()
 
     return bookSchema.jsonify(newBook)
 
+
 # Endpoint to update Book.
-@api.route("/book/<id>", methods = ["PUT"])
+@api.route("/book/<id>", methods=["PUT"])
 def bookUpdate(id):
     book = Book.query.get(id)
     title = request.json["title"]
+    author = request.json["author"]
+    pdate = request.json["pdate"]
 
     book.Title = title
+    book.Author = author
+    book.PublishedDate = pdate
 
     db.session.commit()
 
     return bookSchema.jsonify(book)
 
+
 # Endpoint to delete Book.
-@api.route("/book/<id>", methods = ["DELETE"])
+@api.route("/book/<id>", methods=["DELETE"])
 def BookDelete(id):
     book = Book.query.get(id)
 

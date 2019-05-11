@@ -26,10 +26,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print("User connected: " + user)
             library_menu.display_menu(user)
 
-            logout_message = " logged out"
-            conn.sendall(logout_message.encode())
-            data = conn.recv(4096)
-        
         print("Disconnecting from client.")
     print("Closing listening socket.")
 print("Done.")

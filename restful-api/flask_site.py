@@ -5,6 +5,7 @@ import os, requests, json
 
 site = Blueprint("site", __name__)
 
+
 # Client webpage.
 @site.route("/")
 def index():
@@ -12,4 +13,4 @@ def index():
     response = requests.get("http://127.0.0.1:5000/book")
     data = json.loads(response.text)
 
-    return render_template("index.html", library = data)
+    return render_template("index.html", library=data)
