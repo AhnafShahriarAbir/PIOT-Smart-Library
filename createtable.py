@@ -61,9 +61,9 @@ class DatabaseUtils:
                 )""")
         self.connection.commit()
 
-    def insertBook(self, name):
+    def insertBook(self, title, author ):
         with self.connection.cursor() as cursor:
-            cursor.execute("insert into Book (Name) values (%s)", (name,))
+            cursor.execute("INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
         self.connection.commit()
 
         return cursor.rowcount == 1
