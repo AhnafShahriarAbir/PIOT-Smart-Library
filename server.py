@@ -3,7 +3,7 @@
 # Documentation: https://docs.python.org/3/library/socket.html
 
 import socket
-
+from library_menu import library_menu
 HOST = ""
 
 PORT = 65001
@@ -21,11 +21,13 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             data = conn.recv(4096)
             if(not data):
                 break
-
-                
-            print("User connected: " + data.decode())
             
-            conn.sendall(data)
+            user = data.decode()
+            print("User connected: " + user)
+            library_menu.display_menu(user)
+            str ="logout"
+            conn.sendall(str.encode())
+           
         print("Disconnecting from client.")
     print("Closing listening socket.")
 print("Done.")
