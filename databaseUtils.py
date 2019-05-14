@@ -1,10 +1,12 @@
 import pymysql
 
+
 class DatabaseUtils():
     HOST = "35.244.94.254"
     USER = "root"
-    PASSWORD = " "
+    PASSWORD = "password"
     DATABASE = "lms"
+
 
     def __init__(self, connection = None):
         if(connection == None):
@@ -88,6 +90,7 @@ class DatabaseUtils():
             result = cursor.fetchall()
             for row in result:
                 bookID = row[0]
+                print("Book Title: " + row[1] + " Author: " + row[2] )
             return bookID
         self.connection.commit()
 
