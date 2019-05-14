@@ -2,7 +2,7 @@
 import sqlite3
 from bcrypt import hashpw, gensalt,checkpw
 import sys
-
+from client import Client
 from validation import validate
 from passlib.hash import sha256_crypt
 databaseName='/home/pi/A2/profile.db'
@@ -15,7 +15,8 @@ class menu():
             print ("Welcome\n")
             print ("Please select you want to start:")
             print ("1. Sign Up ")
-            print ("2. Log in ")
+            print ("2. Log in with email")
+            print ("3. Facial login")
             print ("\n0. Quit")
             print (67 * "-")
             choice=input("Enter your choice: ")    
@@ -32,7 +33,12 @@ class menu():
                 
             elif choice==("2"):
                 user_Email,passWord=check.check_login_status()
-                
+                print(user_Email)
+                Client.get_details(user_Email)
+
+            elif choice==("3"):
+                #using facial recogniaiton
+                break
             elif choice==("0"):
                 
                 sys.exit()
