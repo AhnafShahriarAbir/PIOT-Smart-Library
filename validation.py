@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 import sqlite3
 from passlib.hash import sha256_crypt
-from validate_email import validate_email
 import sys
-import socket
 import re
-from library_menu import library_menu
-HOST = "10.132.129.154"
 
-# HOST = "127.0.0.1" # The server's hostname or IP address.
-PORT = 65001         # The port used by the server.
-ADDRESS = (HOST, PORT)
 databaseName='/home/pi/A2/profile.db'
 conn=sqlite3.connect(databaseName)
 
@@ -117,17 +110,7 @@ class validate():
                 print("User is not found!")
             else:
                     if sha256_crypt.verify(passWord,results[1]):            
-                        print ("Welcome!"+results[0])
-                        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                            print("Connecting")
-                            s.connect(ADDRESS)
-                            s.sendall(user_email.encode())
-                            data = s.recv(4096)
-                            print(user_email+" is connected to Server")
-                            library_menu.display_menu(user_email)
-                            
-                            
-                        
+                        print ("Welcome!"+results[0])                      
                         break
                     else:
                         print ("Incorrect password,please check!")
