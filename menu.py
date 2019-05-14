@@ -32,8 +32,8 @@ class menu():
                 print("\nSigned up,please log in\n")
 
             elif choice == ("2"):
-                user_Email = check.check_login_status()
-                
+                user_Email, password = check.check_login_status()
+                print(user_Email)
                 Client.get_details(user_Email)
 
             elif choice == ("0"):
