@@ -88,7 +88,6 @@ class DatabaseUtils():
             result = cursor.fetchall()
             for row in result:
                 bookID = row[0]
-                print ('ID:', bookID, 'TITLE:', row[1], 'AUTHOR:', row[2])
             return bookID
         self.connection.commit()
 
@@ -107,6 +106,5 @@ class DatabaseUtils():
         
     def borrowBook(self, bookID, email):
         with self.connection.cursor() as cursor:
-            #cursor.execute("INSERT INTO BookBorrowed Email = %s", (email))
             cursor.execute("INSERT INTO BookBorrowed (BookID, Title) SELECT BookID, Title FROM Book WHERE BookID = %s AND INSERT INTO BookBorrowed Email values (%s)", (bookID, email))
         self.connection.commit()
