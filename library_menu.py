@@ -12,7 +12,7 @@ class library_menu():
             print(30 * "-", "LIBRARY MENU", 30 * "-")
             print("Welcome to the library, " )
             print("Please select you want to start:")
-            print("1. Search Book catalogue/ Borrow")
+            print("1. Search Book/ Borrow Book")
             print("2. Return ")
             print("3. Logout")
             print(" ")
@@ -26,9 +26,9 @@ class library_menu():
             elif choice == ("2"):
                 print("Returning book")
 
-            elif choice == ("4"):
+            elif choice == ("3"):
                 break
 
             else:
-                print("Invalid selection,please enter number 1, 2, 3 or 4")
+                print("Invalid selection,please enter number 1, 2 or 3")
                 return

@@ -61,20 +61,23 @@ class DatabaseUtils:
                 )""")
         self.connection.commit()
 
-    def insertBook(self, title, author ):
+    def insertBook(self, name):
         with self.connection.cursor() as cursor:
-            cursor.execute("INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
+            cursor.execute("insert into Book (BookID, Title, ) values ('%d',' ')", (name,))
         self.connection.commit()
 
         return cursor.rowcount == 1
 
-    def getBook(self):
+    def borrowBook(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("select BookID, Name from Book")
-            return cursor.fetchall()
-
-    def deleteBook(self, BookID):
-        with self.connection.cursor() as cursor:
-            # Note there is an intentionally placed bug here: != should be =
-            cursor.execute("delete from Person where BookID != %s", (BookID,))
+            cursor.execute("insert into BorrowedBook (LmsUserID) SELECT (LmsUserID) FROM LmsUser")
+            cursor.execute("insert into BorrowedBook (BookID, Title) SELECT (BookID, Title) FROM Book WHERE (BookID) values (%s)", (bookID))
         self.connection.commit()
+
+   
+
+    def returnBook(self, name): 
+        with self.connection.cursor() as cursor:
+            cursor.execute("delete from BorrowedBook WHERE (title) values (%s)", (name))
+        self.connection.commit()
+
