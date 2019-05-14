@@ -28,10 +28,9 @@ class library_menu():
                 print("Returning book")
 
             elif choice == ("4"):
-                print("enter any key to exit.....")
-                print("log out")
-                sys.exit()
+                print(user_email+" log out")
+                break
 
             else:
                 print("Invalid selection,please enter number 1, 2, 3 or 4")
-                return
+                
