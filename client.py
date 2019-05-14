@@ -4,7 +4,7 @@
 
 import socket
 
-HOST = "10.132.86.89"
+HOST = "10.132.94.207"
 
 # HOST = "127.0.0.1" # The server's hostname or IP address.
 PORT = 65001         # The port used by the server.
