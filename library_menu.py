@@ -1,34 +1,51 @@
 #!/usr/bin/env python3
 import sqlite3
 import sys
+import socket
+from databaseUtils import DatabaseUtils
 
-# databaseName = 'dummy_library.db'
-# conn = sqlite3.connect(databaseName)
 
 
 class library_menu():
-    def display_menu():
+    def display_menu(user_email):
         while True:
             print(30 * "-", "LIBRARY MENU", 30 * "-")
-            print("Welcome to the library, " )
+            print("Welcome to the library, " + user_email)
             print("Please select you want to start:")
-            print("1. Search Book/ Borrow Book")
-            print("2. Return ")
-            print("3. Logout")
+            print("1. Search Book catalogue ")
+            print("2. Borrow ")
+            print("3. Return ")
+            print("4. Logout")
             print(" ")
             print(67 * "-")
             choice = input("Enter your choice: ")
 
+            create = DatabaseUtils()
             if choice == ("1"):
-                
-                print("\n Searching for book \ Borrow Book \n")
+                title = input("Enter name of the book: ")
+                print("Searching book")
+                   
+                   
 
             elif choice == ("2"):
-                print("Returning book")
+                print("AVAILABLE BOOKS:")
+                create.getBook()
+                
+                create.borrowBook(bookID, user_email)
 
             elif choice == ("3"):
-                break
+                print("Returning book")
+                create.showBorrowedBooks(user_email)
+                bookID = input("Enter the ID of the book you want to return: ")
+                create.returnBook(bookID)
+
+            elif choice == ("4"):
+                print("enter any key to exit.....")
+                print("log out")
+                sys.exit()
 
             else:
-                print("Invalid selection,please enter number 1, 2 or 3")
+                print("Invalid selection,please enter number 1, 2, 3 or 4")
                 return
+
+    display_menu('saif.zeo@gmail.com')
