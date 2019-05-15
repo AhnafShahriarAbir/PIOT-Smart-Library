@@ -1,12 +1,10 @@
 import pymysql
 
-
 class DatabaseUtils():
     HOST = "35.244.94.254"
     USER = "root"
     PASSWORD = "password"
     DATABASE = "lms"
-
 
     def __init__(self, connection = None):
         if(connection == None):
@@ -82,35 +80,38 @@ class DatabaseUtils():
         with self.connection.cursor() as cursor:
             cursor.execute("delete from Person where BookID = %s", (BookID))
         self.connection.commit()
+
+    def getUserID(self, email):
+        with self.connection.cursor() as cursor:
+            cursor.execute("SELECT LmsUserID FROM LmsUser WHERE Email = %s", (email))
+            result = cursor.fetchall()
+            return result
         
-    def searchBook(self,title):
+    def searchBook(self,bookName):
         bookID = ""
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM Book WHERE Title = %s", (title))
+            cursor.execute("SELECT * FROM Book WHERE Title = %s", (bookName))
             result = cursor.fetchall()
             for row in result:
                 bookID = row[0]
-<<<<<<< HEAD
-=======
-                print("Book Title: " + row[1] + " Author: " + row[2] )
->>>>>>> BookTable
-            return bookID
-        self.connection.commit()
+                title = row[1]
+            return bookID, title
 
-    def showBorrowedBooks(self, email):
+    def showBorrowedBooks(self, userID):
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM BookBorrowed WHERE LmsUserID = LmsUserID FROM LmsUser WHERE Email = %s", (email))
+            cursor.execute("SELECT BookID, Title FROM BookBorrowed WHERE LmsUserID = %s", (userID))
             result = cursor.fetchall()
             for row in result:
-                print ('ID:', row[0], 'Title:', row[1])
-        self.connection.commit()
+                bookID = row[0]
+                title = row[1]
+            return bookID, title
 
-    def returnBook(self, ID):
+    def returnBook(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("DELETE * FROM BookBorrowed WHERE BookBorrowedID = %s", (ID))
+            cursor.execute("DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
         self.connection.commit()
         
-    def borrowBook(self, bookID, email):
+    def borrowBook(self, bookID, title, userID):
         with self.connection.cursor() as cursor:
-            cursor.execute("INSERT INTO BookBorrowed (BookID, Title) SELECT BookID, Title FROM Book WHERE BookID = %s AND INSERT INTO BookBorrowed Email values (%s)", (bookID, email))
+            cursor.execute("INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
         self.connection.commit()
