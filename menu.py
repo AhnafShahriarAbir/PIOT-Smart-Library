@@ -5,6 +5,8 @@ import sys
 from client import Client
 from validation import validate
 from passlib.hash import sha256_crypt
+from facial_re import recognise
+
 databaseName='/home/pi/A2/profile.db'
 conn=sqlite3.connect(databaseName)
 
@@ -21,6 +23,7 @@ class menu():
             print (67 * "-")
             choice=input("Enter your choice: ")    
             check=validate()
+            recogn = recognise() 
             if choice ==("1"):
                 username=check.check_username()
                 hashPassword=check.check_password()
@@ -36,9 +39,10 @@ class menu():
                 print(user_Email)
                 Client.get_details(user_Email)
 
-            elif choice==("3"):
-                #using facial recogniaiton
-                break
+            elif choice==("3"):            
+                user_Email=recogn.facial_recognise()
+                Client.get_details(user_Email)
+
             elif choice==("0"):
                 
                 sys.exit()
