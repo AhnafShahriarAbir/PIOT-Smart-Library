@@ -88,14 +88,11 @@ class DatabaseUtils():
             return result
         
     def searchBook(self,bookName):
-        bookID = ""
-        with self.connection.cursor() as cursor:
-            cursor.execute("SELECT * FROM Book WHERE Title = %s", (bookName))
+        result = ""
+        with self.connection.cursor() as cursor:  
+            cursor.execute("SELECT * FROM Book WHERE Title LIKE %s", ("%" + bookName + "%"))
             result = cursor.fetchall()
-            for row in result:
-                bookID = row[0]
-                title = row[1]
-            return bookID, title
+            return result
 
     def showBorrowedBooks(self, userID):
         with self.connection.cursor() as cursor:
