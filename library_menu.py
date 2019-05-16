@@ -2,9 +2,6 @@
 import sqlite3
 import sys
 
-# databaseName = 'dummy_library.db'
-# conn = sqlite3.connect(databaseName)
-
 
 class library_menu():
     def display_menu(user_email):
@@ -35,4 +32,4 @@ class library_menu():
 
             else:
                 print("Invalid selection,please enter number 1, 2, 3 or 4")
-                return
+                

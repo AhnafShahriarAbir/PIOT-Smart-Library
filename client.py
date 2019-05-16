@@ -13,6 +13,19 @@ ADDRESS = (HOST, PORT)
 
 class Client():
     def get_details(user_email):
+        while True:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                print("Connecting to Server")
+                s.connect(ADDRESS)
+                
+                s.sendall(user_email.encode())
+                data=s.recv(4096)
+                if (data.decode()=="logout"):
+                    print("logout")
+                    break
+                
+            
+            
         
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 

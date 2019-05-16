@@ -1,0 +1,29 @@
+if you want to know spinx,and you want to do it in your local directory
+
+1. pip3 install sphinx
+2. mkdir demo
+3. In demo directory,create two folder named:doc and src,src is to store sample demo code (will be our    code)
+3. cd demo
+4. sphinx-quicksatrt
+5. fill up information
+6. Go to the demo/doc folder ,change config.py ,mine version is uncomment the line 13-15,and add extension as below:
+
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.coverage',
+    'sphinx.ext.mathjax'
+
+]
+7. sphinx-apidoc -o demo/source /../src/
+8. cd .
+9. sphinx-build -b html source build
+10. make html
+
+Notes:
+
+By using spinx it will also run the python script, with all the libraries that you have installed and imported to the Raspberry pi,you may install it to your local directory again and run locally.
+
+Bascially if you can run your python script locally,then spinx is able to build the HTML.
