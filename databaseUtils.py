@@ -1,15 +1,16 @@
 import pymysql
 
+
 class DatabaseUtils():
     HOST = "35.244.94.254"
     USER = "root"
     PASSWORD = "password"
     DATABASE = "lms"
 
-    def __init__(self, connection = None):
+    def __init__(self, connection=None):
         if(connection == None):
             connection = pymysql.connect(DatabaseUtils.HOST, DatabaseUtils.USER,
-                DatabaseUtils.PASSWORD, DatabaseUtils.DATABASE)
+                                         DatabaseUtils.PASSWORD, DatabaseUtils.DATABASE)
         self.connection = connection
 
     def close(self):
@@ -62,9 +63,10 @@ class DatabaseUtils():
                 )""")
         self.connection.commit()
 
-    def insertBook(self, title, author ):
+    def insertBook(self, title, author):
         with self.connection.cursor() as cursor:
-            cursor.execute("INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
+            cursor.execute(
+                "INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
         self.connection.commit()
 
         return cursor.rowcount == 1
@@ -74,7 +76,7 @@ class DatabaseUtils():
             cursor.execute("select BookID, Title, Author from Book")
             result = cursor.fetchall()
             for row in result:
-                print ('ID:', row[0], 'TITLE:', row[1], 'AUTHOR:', row[2])
+                print('ID:', row[0], 'TITLE:', row[1], 'AUTHOR:', row[2])
 
     def deleteBook(self, BookID):
         with self.connection.cursor() as cursor:
@@ -83,32 +85,35 @@ class DatabaseUtils():
 
     def getUserID(self, email):
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT LmsUserID FROM LmsUser WHERE Email = %s", (email))
+            cursor.execute(
+                "SELECT LmsUserID FROM LmsUser WHERE Email = %s", (email))
             result = cursor.fetchall()
             return result
-        
-    def searchBook(self,bookName):
+
+    def searchBook(self, bookName):
         result = ""
-        with self.connection.cursor() as cursor:  
-            cursor.execute("SELECT * FROM Book WHERE Title LIKE %s", ("%" + bookName + "%"))
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT * FROM Book WHERE Title LIKE %s", ("%" + bookName + "%"))
             result = cursor.fetchall()
             return result
 
     def showBorrowedBooks(self, userID):
+        result = ''
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT BookID, Title FROM BookBorrowed WHERE LmsUserID = %s", (userID))
+            cursor.execute(
+                "SELECT BookID, Title FROM BookBorrowed WHERE LmsUserID = %s", (userID))
             result = cursor.fetchall()
-            for row in result:
-                bookID = row[0]
-                title = row[1]
-            return bookID, title
+            return result
 
     def returnBook(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
         self.connection.commit()
-        
+
     def borrowBook(self, bookID, title, userID):
         with self.connection.cursor() as cursor:
-            cursor.execute("INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
+            cursor.execute(
+                "INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
         self.connection.commit()

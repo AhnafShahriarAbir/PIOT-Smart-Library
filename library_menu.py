@@ -2,7 +2,7 @@
 import sqlite3
 import sys
 import socket
-from add_event import CreateEvent
+#from add_event import CreateEvent
 from databaseUtils import DatabaseUtils
 
 
@@ -20,7 +20,7 @@ class library_menu():
             choice = input("Enter your choice: ")
 
             create = DatabaseUtils()
-            event = CreateEvent()
+            #event = CreateEvent()
             userID = create.getUserID(user_email)
             if choice == ("1"):
                 bookName = input("Enter name of the book: ")
@@ -28,17 +28,17 @@ class library_menu():
                 result = create.searchBook(bookName)
                 for row in result:
                     print('ID: ', row[0], ' TITLE: ', row[1])
-                inp = input("\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
+                userInput = input("\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
 
                 create.borrowBook(bookID, title, userID)
-                event.addEvent(title)
+                #event.addEvent(title)
                 print("\nBOOK BORROWED!")
 
             elif choice == ("2"):
                 print("Returning book")
                 result = create.showBorrowedBooks(userID)
 
-                if result == (''):
+                if not result:
                     print("You have not borrowed any books yet.")
                 else:
                     for row in result:
