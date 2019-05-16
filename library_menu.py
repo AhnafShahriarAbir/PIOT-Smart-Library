@@ -34,7 +34,7 @@ class library_menu():
                 userInput = input(
                     "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
                 for row in result:
-                    if userInput == row[0]:
+                    if userInput == str(row[0]):
                         tableData = create.checkTable(userInput)
                         if not tableData:
                             create.borrowBook(row[0], row[1], userID)
@@ -43,8 +43,8 @@ class library_menu():
                             return
                         else:
                             print("BOOK ALREADY BORROWED!")
-                    print(67 * "-")
-                    return
+                print(67 * "-")
+                return
 
             elif choice == ("2"):
                 print("Returning book")
