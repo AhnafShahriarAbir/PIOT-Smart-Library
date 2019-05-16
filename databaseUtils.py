@@ -71,13 +71,12 @@ class DatabaseUtils():
 
         return cursor.rowcount == 1
 
-    def getBook(self):
+    def checkTable(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("select BookID, Title, Author from Book")
+            cursor.execute("SELECT BookID FROM Book WHERE BookID = %s", (bookID))
             result = cursor.fetchall()
-            for row in result:
-                print('ID:', row[0], 'TITLE:', row[1], 'AUTHOR:', row[2])
-
+            return result
+            
     def deleteBook(self, BookID):
         with self.connection.cursor() as cursor:
             cursor.execute("delete from Person where BookID = %s", (BookID))

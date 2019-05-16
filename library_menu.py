@@ -23,16 +23,28 @@ class library_menu():
             #event = CreateEvent()
             userID = create.getUserID(user_email)
             if choice == ("1"):
-                bookName = input("Enter name of the book: ")
-                print('\nSEARCH RESULTS:\n')
+                bookName = input("Enter the name of the book: ")
                 result = create.searchBook(bookName)
+                if not result or len(bookName) == 0:
+                    print("Invalid input or Book doesnt exist!")
+                    return
+                print('\nSEARCH RESULTS:\n')
                 for row in result:
                     print('ID: ', row[0], ' TITLE: ', row[1])
-                userInput = input("\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
-
-                create.borrowBook(bookID, title, userID)
-                #event.addEvent(title)
-                print("\nBOOK BORROWED!")
+                userInput = input(
+                    "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
+                for row in result:
+                    if userInput == row[0]:
+                        tableData = create.checkTable(userInput)
+                        if not tableData:
+                            create.borrowBook(row[0], row[1], userID)
+                            print("\nBOOK BORROWED!")
+                            # event.addEvent(row[1])
+                            return
+                        else:
+                            print("BOOK ALREADY BORROWED!")
+                    print(67 * "-")
+                    return
 
             elif choice == ("2"):
                 print("Returning book")
@@ -44,13 +56,16 @@ class library_menu():
                     for row in result:
                         print('ID: ', row[0], ' TITLE: ', row[1])
 
-                    userInput = input("Enter the ID of the book you want to return: ")
+                    userInput = input(
+                        "Enter the ID of the book you want to return: ")
                     create.returnBook(userInput)
                     print("BOOK RETURNED!")
+                print(67 * "-")
                 return
 
             elif choice == ("3"):
                 print("Logging Out")
+                print(67 * "-")
                 sys.exit()
 
             else:
