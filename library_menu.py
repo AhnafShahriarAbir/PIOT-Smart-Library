@@ -40,12 +40,11 @@ class library_menu():
                             create.borrowBook(row[0], row[1], userID)
                             print("\nBOOK BORROWED!")
                             event.addEvent(row[1])
-                            return
                         else:
                             print("BOOK ALREADY BORROWED!")
                 print(67 * "-")
-                return
-
+                continue
+                
             elif choice == ("2"):
                 print("Returning book")
                 result = create.showBorrowedBooks(userID)
@@ -61,7 +60,7 @@ class library_menu():
                     create.returnBook(userInput)
                     print("BOOK RETURNED!")
                 print(67 * "-")
-                return
+                continue
 
             elif choice == ("3"):
                 print("Logging Out")
@@ -70,6 +69,6 @@ class library_menu():
 
             else:
                 print("Invalid selection,please enter number 1, 2, 3 or 4")
-                return
+                continue
 
     display_menu('saif.zeo@gmail.com')

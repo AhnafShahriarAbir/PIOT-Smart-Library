@@ -73,7 +73,7 @@ class DatabaseUtils():
 
     def checkTable(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT BookID FROM Book WHERE BookID = %s", (bookID))
+            cursor.execute("SELECT BookID FROM BookBorrowed WHERE BookID = %s", (bookID))
             result = cursor.fetchall()
             return result
             
