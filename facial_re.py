@@ -89,9 +89,8 @@ class recognise():
                 # print to console, identified person
                 print("Person found: {}".format(name))
                 # Set a flag to sleep the cam for fixed time
-                break
-
-            
-            return name
-        # do a bit of cleanup
+                email = name
+                return email
         vs.stop()
+        return email
+
