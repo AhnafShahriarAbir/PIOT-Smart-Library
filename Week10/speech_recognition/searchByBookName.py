@@ -50,7 +50,7 @@ def getBookNameToSearch():
 
         print("Say the first name to search for.")
         try:
-            audio = r.listen(source, timeout = 1.5)
+            audio = r.listen(source, timeout = 0.5)
         except sr.WaitTimeoutError:
             return None
 
@@ -62,8 +62,10 @@ def getBookNameToSearch():
         # (audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
         # instead of `r.recognize_google(audio)`
         bookName = r.recognize_google(
-            audio, key="AIzaSyBUpWsKw8mv8IRC60VUyfsntXUXffHcNEA")
-        print("Google Speech Recognition thinks you said '{}'".format(bookName))
+            audio)
+        print("Google Speech Recognition thinks you said '{}'".format(
+            r.recognize_google(
+                audio)))
     except(sr.UnknownValueError, sr.RequestError):
         pass
     finally:
