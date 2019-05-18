@@ -95,9 +95,10 @@ class DatabaseUtils():
 
     def searchBookByID(self, id):
         with self.connection.cursor() as cursor:
-            row = cursor.execute("SELECT * FROM Book WHERE BookId = %s", (id))
+            cursor.execute("SELECT * FROM Book WHERE BookId = %s", (id))
+            row = cursor.fetchone()
             print(row)
-            returnBook(id)
+            self.returnBookById(id)
         self.connection.commit()
 
     def showBorrowedBooks(self, email):
@@ -112,8 +113,16 @@ class DatabaseUtils():
         with self.connection.cursor() as cursor:
             cursor.execute("DELETE * FROM BookBorrowed WHERE BookBorrowedID = %s", (ID))
         self.connection.commit()
-        
+
+    def returnBookById(self, ID):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "DELETE FROM BookBorrowed WHERE BookID = %s", (ID))
+            print("Book received. Thank You!!!")
+        self.connection.commit()
+    
     def borrowBook(self, bookID, email):
         with self.connection.cursor() as cursor:
             cursor.execute("INSERT INTO BookBorrowed (BookID, Title) SELECT BookID, Title FROM Book WHERE BookID = %s AND INSERT INTO BookBorrowed Email values (%s)", (bookID, email))
         self.connection.commit()
+

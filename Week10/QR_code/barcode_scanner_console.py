@@ -8,6 +8,16 @@
 
 # import the necessary packages
 from imutils.video import VideoStream
+from pyzbar import pyzbar# USAGE
+# python3 barcode_scanner_console.py
+
+## Acknowledgement
+## This code is adapted from:
+## https://www.pyimagesearch.com/2018/05/21/an-opencv-barcode-and-qr-code-scanner-with-zbar/
+## pip3 install pyzbar
+
+# import the necessary packages
+from imutils.video import VideoStream
 from pyzbar import pyzbar
 import datetime
 import imutils
@@ -37,7 +47,7 @@ while True:
         # the barcode data is a bytes object so we convert it to a string
         barcodeData = barcode.data.decode("utf-8")
         barcodeType = barcode.type
-        # 
+        
 
         # if the barcode text has not been seen before 
         # print it and update the set
