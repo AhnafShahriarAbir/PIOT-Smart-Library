@@ -63,7 +63,7 @@ class DatabaseUtils():
                 )""")
         self.connection.commit()
 
-    def insertBook(self, title, author ):
+    def insertBook(self, title, author):
         with self.connection.cursor() as cursor:
             cursor.execute("INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
         self.connection.commit()
@@ -75,7 +75,7 @@ class DatabaseUtils():
             cursor.execute("select BookID, Title, Author from Book")
             result = cursor.fetchall()
             for row in result:
-                print ('ID:', row[0], 'TITLE:', row[1], 'AUTHOR:', row[2])
+                print('ID:', row[0], 'TITLE:', row[1], 'AUTHOR:', row[2])
 
     def deleteBook(self, BookID):
         with self.connection.cursor() as cursor:
@@ -89,8 +89,15 @@ class DatabaseUtils():
             result = cursor.fetchall()
             for row in result:
                 bookID = row[0]
-                print("Book Title: " + row[1] + " Author: " + row[2] )
+                print("Book Title: " + row[1] + " Author: " + row[2])
             return bookID
+        self.connection.commit()
+
+    def searchBookByID(self, id):
+        with self.connection.cursor() as cursor:
+            row = cursor.execute("SELECT * FROM Book WHERE BookId = %s", (id))
+            print(row)
+            returnBook(id)
         self.connection.commit()
 
     def showBorrowedBooks(self, email):
@@ -98,7 +105,7 @@ class DatabaseUtils():
             cursor.execute("SELECT * FROM BookBorrowed WHERE LmsUserID = LmsUserID FROM LmsUser WHERE Email = %s", (email))
             result = cursor.fetchall()
             for row in result:
-                print ('ID:', row[0], 'Title:', row[1])
+                print('ID:', row[0], 'Title:', row[1])
         self.connection.commit()
 
     def returnBook(self, ID):

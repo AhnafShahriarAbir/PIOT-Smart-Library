@@ -37,14 +37,19 @@ while True:
         # the barcode data is a bytes object so we convert it to a string
         barcodeData = barcode.data.decode("utf-8")
         barcodeType = barcode.type
-        db = DatabaseUtils()
+        # 
 
         # if the barcode text has not been seen before 
         # print it and update the set
         if barcodeData not in found:
-            bookName = db.searchBook(barcodeData)
-            print("[FOUND] Type: {}, Data: {}".format(barcodeType, bookName))
+            # bookName = db.searchBook(barcodeData)
+            print("[FOUND] Type: {}, Data: {}".format(barcodeType, barcodeData))
+            print("Searching book for BookID: " + barcodeData)
             found.add(barcodeData)
+
+            db = DatabaseUtils()
+            db.searchBookByID(barcodeData)
+            
 
     # wait a little before scanning again
     time.sleep(1)
