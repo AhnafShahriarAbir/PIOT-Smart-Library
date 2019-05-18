@@ -1,3 +1,4 @@
+    
 #!/usr/bin/env python3
 # Reference: https://realpython.com/python-sockets/
 # Documentation: https://docs.python.org/3/library/socket.html
@@ -24,19 +25,4 @@ class Client():
                     print("logout")
                     break
                 
-            
-            
-        
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
-            print("Connecting to Server")
-            s.connect(ADDRESS)
-
-            s.sendall(user_email.encode())
-            data = s.recv(4096)
-            user = data.decode()
-            print("User logged out: " + user)
-
-        print("Done.")
-        
-        

@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 import sqlite3
 from passlib.hash import sha256_crypt
+from validate_email import validate_email
 import sys
+import socket
 import re
+from library_menu import library_menu
+HOST = "10.132.129.154"
 
-databaseName='/home/pi/A2/profile.db'
+# HOST = "127.0.0.1" # The server's hostname or IP address.
+PORT = 65001         # The port used by the server.
+ADDRESS = (HOST, PORT)
+databaseName='profile.db'
 conn=sqlite3.connect(databaseName)
 
 class validate():

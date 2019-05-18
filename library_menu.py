@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import sqlite3
 import sys
-
+import socket
+from databaseUtils import DatabaseUtils
 
 class library_menu():
     def display_menu(user_email):
