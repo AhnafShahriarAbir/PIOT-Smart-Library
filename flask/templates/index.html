@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Person</title>
+        <title>User</title>
     </head>
     <body>
         <table>
             <tr>
-                <th>Person ID</th>
-                <th>Name</th>
+                <th>User ID</th>
+                <th>user_name</th>
             </tr>
-            {% for person in people %}
+            {% for user in user_email %}
                 <tr>
-                    <td>{{ person.PersonID }}</td>
-                    <td>{{ person.Name }}</td>
+                    <td>{{ user.UserID }}</td>
+                    <td>{{ user.user_name }}</td>
                 </tr>
             {% endfor %}
         </table>
