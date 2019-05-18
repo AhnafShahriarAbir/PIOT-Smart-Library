@@ -18,7 +18,9 @@ import time
 import cv2
 
 class recognise():
+    email =""
     def facial_recognise(self):
+        
         # construct the argument parser and parse the arguments
         ap = argparse.ArgumentParser()
         ap.add_argument("-e", "--encodings", default="encodings.pickle",
@@ -88,9 +90,11 @@ class recognise():
             for name in names:
                 # print to console, identified person
                 print("Person found: {}".format(name))
-                # Set a flag to sleep the cam for fixed time
                 email = name
                 return email
         vs.stop()
         return email
-
+    
+        # do a bit of cleanup
+        
+        
