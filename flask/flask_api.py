@@ -9,73 +9,73 @@ db = SQLAlchemy()
 ma = Marshmallow()
 
 # Declaring the model.
-class Person(db.Model):
-    __tablename__ = "Person"
-    PersonID = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    Name = db.Column(db.Text)
+class User(db.Model):
+    __tablename__ = "User"
+    UserID = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    User_name = db.Column(db.Text)
     # Username = db.Column(db.String(256), unique = True)
 
-    def __init__(self, Name, PersonID = None):
-        self.PersonID = PersonID
-        self.Name = Name
+    def __init__(self, user_name, UserID = None):
+        self.UserID = UserID
+        self.user_name = user_name
 
-class PersonSchema(ma.Schema):
+class UserSchema(ma.Schema):
     # Reference: https://github.com/marshmallow-code/marshmallow/issues/377#issuecomment-261628415
     def __init__(self, strict = True, **kwargs):
         super().__init__(strict = strict, **kwargs)
     
     class Meta:
         # Fields to expose.
-        fields = ("PersonID", "Name")
+        fields = ("UserID", "user_name")
 
-personSchema = PersonSchema()
-personsSchema = PersonSchema(many = True)
+userSchema = UserSchema()
+usersSchema = UserSchema(many = True)
 
 # Endpoint to show all people.
-@api.route("/person", methods = ["GET"])
-def getPeople():
-    people = Person.query.all()
-    result = personsSchema.dump(people)
+@api.route("/user", methods = ["GET"])
+def getUser_email():
+    user_email = User.query.all()
+    result = usersSchema.dump(user_email)
 
     return jsonify(result.data)
 
 # Endpoint to get person by id.
-@api.route("/person/<id>", methods = ["GET"])
-def getPerson(id):
-    person = Person.query.get(id)
+@api.route("/user/<id>", methods = ["GET"])
+def getUser(id):
+    user = User.query.get(id)
 
-    return personSchema.jsonify(person)
+    return userSchema.jsonify(user)
 
 # Endpoint to create new person.
-@api.route("/person", methods = ["POST"])
-def addPerson():
-    name = request.json["name"]
+@api.route("/user", methods = ["POST"])
+def addUser():
+    user_name = request.json["user_name"]
 
-    newPerson = Person(Name = name)
+    newUser = User(user_name = user_name)
 
-    db.session.add(newPerson)
+    db.session.add(newUser)
     db.session.commit()
 
-    return personSchema.jsonify(newPerson)
+    return userSchema.jsonify(newUser)
 
 # Endpoint to update person.
-@api.route("/person/<id>", methods = ["PUT"])
-def personUpdate(id):
-    person = Person.query.get(id)
-    name = request.json["name"]
+@api.route("/user/<id>", methods = ["PUT"])
+def userUpdate(id):
+    user = User.query.get(id)
+    user_name = request.json["user_name"]
 
-    person.Name = name
+    user.User_name = user_name
 
     db.session.commit()
 
-    return personSchema.jsonify(person)
+    return userSchema.jsonify(user)
 
 # Endpoint to delete person.
-@api.route("/person/<id>", methods = ["DELETE"])
-def personDelete(id):
-    person = Person.query.get(id)
+@api.route("/user/<id>", methods = ["DELETE"])
+def userDelete(id):
+    user = User.query.get(id)
 
-    db.session.delete(person)
+    db.session.delete(user)
     db.session.commit()
 
-    return personSchema.jsonify(person)
+    return userSchema.jsonify(user)
