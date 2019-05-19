@@ -6,6 +6,7 @@ import sys
 from validation import validate
 from passlib.hash import sha256_crypt
 from library_menu import library_menu
+from databaseUtils import DatabaseUtils
 
 databaseName='profile.db'
 conn=sqlite3.connect(databaseName)
@@ -30,6 +31,8 @@ class menu():
                 curs=conn.cursor()
                 curs.execute("INSERT INTO profile_user VALUES ((?),(?),(?),(?))", (username,hashPassword,name,email))
                 conn.commit()
+                create = DatabaseUtils()
+                create.addUser(username, name, email)
                 print("\nSigned up,please log in\n")
                 
             elif choice==("2"):

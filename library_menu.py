@@ -74,7 +74,7 @@ class library_menu():
                 continue
 
             elif choice == ("3"):
-                print("Logging Out")
+                print("Logging Out...")
                 print(70 * "-")
                 sys.exit()
 

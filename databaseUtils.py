@@ -71,6 +71,12 @@ class DatabaseUtils():
 
         return cursor.rowcount == 1
 
+    def addUser(self, username, name, email):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO LmsUser (UserName, Name, Email) values (%s, %s, %s)", (username, name, email))
+        self.connection.commit()
+
     def checkTable(self, bookID):
         with self.connection.cursor() as cursor:
             cursor.execute(
