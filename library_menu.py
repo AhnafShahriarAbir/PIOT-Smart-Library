@@ -30,7 +30,7 @@ class library_menu():
                     continue
                 print('\nSEARCH RESULTS:\n')
                 for row in result:
-                    print('ID: ', row[0], ' TITLE: ', row[1], ' AUTHOR: ', row[2], 'STATUS: ', row[3])
+                    print('ID: ', row[0], ' TITLE: ', row[1], '   AUTHOR: ', row[2], 'STATUS: ', row[3])
                 userInput = input(
                     "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
                 for row in result:
@@ -64,9 +64,7 @@ class library_menu():
                             create.returnBook(userInput)
                             eventID = create.getEventID(userInput)
                             for row in eventID:
-                                print('ID: ', row[0])
-                            print(row[0])
-                            event.deleteEvent(row[0])
+                                event.deleteEvent(row[0])
                             create.deleteEvent(userInput)
                             print("BOOK RETURNED!")
                         else:
