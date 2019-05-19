@@ -2,7 +2,7 @@
 import sqlite3
 import sys
 import socket
-from calendarEvent import CreateEvent
+from calendarEvent import CalendarEvent
 from databaseUtils import DatabaseUtils
 
 
@@ -16,37 +16,40 @@ class library_menu():
             print("2. Return ")
             print("3. Logout")
             print(" ")
-            print(67 * "-")
+            print(70 * "-")
             choice = input("Enter your choice: ")
 
             create = DatabaseUtils()
-            event = CreateEvent()
+            event = CalendarEvent()
             userID = create.getUserID(user_email)
             if choice == ("1"):
                 bookName = input("Enter the name of the book: ")
                 result = create.searchBook(bookName)
                 if not result or len(bookName) == 0:
                     print("Invalid input or Book doesnt exist!")
-                    return
+                    continue
                 print('\nSEARCH RESULTS:\n')
                 for row in result:
-                    print('ID: ', row[0], ' TITLE: ', row[1])
+                    print('ID: ', row[0], ' TITLE: ', row[1], ' AUTHOR: ', row[2], 'STATUS: ', row[3])
                 userInput = input(
                     "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
                 for row in result:
-                    if userInput == str(row[0]):
+                    if userInput == str(row[0]) and row[3] == 'Available':
                         tableData = create.checkTable(userInput)
                         if not tableData:
                             create.borrowBook(row[0], row[1], userID)
+                            eventID = event.addEvent(row[1])
+                            create.eventTable(row[0], eventID)
                             print("\nBOOK BORROWED!")
-                            event.addEvent(row[1])
                         else:
                             print("BOOK ALREADY BORROWED!")
-                print(67 * "-")
+                    elif userInput == str(row[0]) and row[3] == 'Unavailable':
+                        print("That book is not available.")
+                print(70 * "-")
                 continue
-                
+
             elif choice == ("2"):
-                print("Returning book")
+                print("BOOKS BORROWED:")
                 result = create.showBorrowedBooks(userID)
 
                 if not result:
@@ -54,21 +57,31 @@ class library_menu():
                 else:
                     for row in result:
                         print('ID: ', row[0], ' TITLE: ', row[1])
-
                     userInput = input(
                         "Enter the ID of the book you want to return: ")
-                    create.returnBook(userInput)
-                    print("BOOK RETURNED!")
-                print(67 * "-")
+                    for row in result:
+                        if userInput == str(row[0]):
+                            create.returnBook(userInput)
+                            eventID = create.getEventID(userInput)
+                            for row in eventID:
+                                print('ID: ', row[0])
+                            print(row[0])
+                            event.deleteEvent(row[0])
+                            create.deleteEvent(userInput)
+                            print("BOOK RETURNED!")
+                        else:
+                            print(
+                                "Enter ID of the Book to borrow \nPress any other key to return to the menu\n")
+                print(70 * "-")
                 continue
 
             elif choice == ("3"):
                 print("Logging Out")
-                print(67 * "-")
+                print(70 * "-")
                 sys.exit()
 
             else:
-                print("Invalid selection,please enter number 1, 2, 3 or 4")
+                print("Invalid selection,please enter number 1, 2 or 3")
                 continue
 
     display_menu('saif.zeo@gmail.com')

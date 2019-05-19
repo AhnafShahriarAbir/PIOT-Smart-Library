@@ -73,10 +73,11 @@ class DatabaseUtils():
 
     def checkTable(self, bookID):
         with self.connection.cursor() as cursor:
-            cursor.execute("SELECT BookID FROM BookBorrowed WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "SELECT BookID FROM BookBorrowed WHERE BookID = %s", (bookID))
             result = cursor.fetchall()
             return result
-            
+
     def deleteBook(self, BookID):
         with self.connection.cursor() as cursor:
             cursor.execute("delete from Person where BookID = %s", (BookID))
@@ -109,10 +110,33 @@ class DatabaseUtils():
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "UPDATE Book SET Status = 'Available' WHERE BookID = %s", (bookID))
         self.connection.commit()
 
     def borrowBook(self, bookID, title, userID):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
+            cursor.execute(
+                "UPDATE Book SET Status = 'Unavailable' WHERE BookID = %s", (bookID))
         self.connection.commit()
+
+    def eventTable(self, bookID, eventID):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO Events (BookID, ID) VALUES (%s, %s)", (bookID, eventID))
+        self.connection.commit()
+
+    def deleteEvent(self, bookID):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "DELETE FROM Events WHERE BookID = %s", (bookID))
+        self.connection.commit()
+
+    def getEventID(self, bookID):
+        with self.connection.cursor() as cursor:
+            cursor.execute(
+                "SELECT ID FROM Events WHERE BookID = %s", (bookID))
+            result = cursor.fetchall()
+            return result

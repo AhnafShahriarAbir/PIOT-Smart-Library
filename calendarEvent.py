@@ -7,7 +7,9 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 
 
-class CreateEvent():
+class CalendarEvent():
+    """This class is to assign user with th
+    """
 
     def addEvent(self, book):
         SCOPES = "https://www.googleapis.com/auth/calendar"
@@ -17,6 +19,7 @@ class CreateEvent():
             flow = client.flow_from_clientsecrets("credentials.json", SCOPES)
             creds = tools.run_flow(flow, store)
         service = build("calendar", "v3", http=creds.authorize(Http()))
+
         date = datetime.now()
         returnDate = (date + timedelta(days=7)).strftime("%Y-%m-%d")
         time_start = "{}T12:00:00+10:00".format(returnDate)
@@ -42,4 +45,14 @@ class CreateEvent():
         }
 
         event = service.events().insert(calendarId="primary", body=event).execute()
-        print("Event created: {}".format(event.get("htmlLink")))
+        return event["id"]
+
+    def deleteEvent(self, ID):
+        SCOPES = "https://www.googleapis.com/auth/calendar"
+        store = file.Storage("token.json")
+        creds = store.get()
+        if(not creds or creds.invalid):
+            flow = client.flow_from_clientsecrets("credentials.json", SCOPES)
+            creds = tools.run_flow(flow, store)
+        service = build("calendar", "v3", http=creds.authorize(Http()))
+        event = service.events().delete(calendarId='primary', eventId = ID).execute()
