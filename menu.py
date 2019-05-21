@@ -7,8 +7,9 @@ from validation import validate
 from passlib.hash import sha256_crypt
 from facial_re import recognise
 
-databaseName='/home/pi/A2/profile.db'
+databaseName='profile.db'
 conn=sqlite3.connect(databaseName)
+
 
 class menu():
     def display_menu(self):

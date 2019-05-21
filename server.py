@@ -9,6 +9,7 @@ HOST = ""
 PORT = 65001
 ADDRESS = (HOST, PORT)
 
+
 def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(ADDRESS)
