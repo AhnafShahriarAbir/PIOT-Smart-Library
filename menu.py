@@ -24,7 +24,7 @@ class menu():
             print (67 * "-")
             choice=input("Enter your choice: ")    
             check=validate()
-            recogn = recognise() 
+            #recogn = recognise() 
             if choice ==("1"):
                 username=check.check_username()
                 hashPassword=check.check_password()
@@ -41,7 +41,7 @@ class menu():
                 Client.get_details(user_Email)
 
             elif choice==("3"):            
-                user_Email=recogn.facial_recognise()
+                #user_Email=recogn.facial_recognise()
                 Client.get_details(user_Email)
 
             elif choice==("0"):

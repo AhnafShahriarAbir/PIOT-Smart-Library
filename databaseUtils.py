@@ -101,8 +101,8 @@ class DatabaseUtils():
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "SELECT * FROM Book WHERE Title LIKE %s", ("%" + bookName + "%"))
-            result = cursor.fetchall()
-            return result
+            rows = cursor.fetchall()
+            return rows
     
     def searchBookByID(self, id):
         with self.connection.cursor() as cursor:
