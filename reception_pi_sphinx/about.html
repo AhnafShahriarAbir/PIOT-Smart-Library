@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>About this project &#8212; PIOT SMART LBRARY 22/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '22/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="PIOT SMART LBRARY 22/05/2019 documentation" href="index.html" />
+    <link rel="next" title="menu Doc" href="menu.html" />
+    <link rel="prev" title="Welcome to PIOT SMART LBRARY’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="about-this-project">
+<h1>About this project<a class="headerlink" href="#about-this-project" title="Permalink to this headline">¶</a></h1>
+<p>Our team has been contacted by the local council library to automate the Library Management
+System (LMS). This system will be used to borrow, return and maintain the backend information.</p>
+<p>We have been tasked create an application for two types of users: library user and library admin.</p>
+<dl class="docutils">
+<dt>In summary, the implementation of this assignment involves the following components:</dt>
+<dd><ul class="first last simple">
+<li>Python documentation tools such as Sphinx</li>
+<li>Unit testing in Python</li>
+<li>Socket Programming</li>
+<li>Writing your own API using Python’s microframework Flask</li>
+<li>AI features such as facial recognition, object detection and Voice detection</li>
+<li>Programming with Cloud databases and,</li>
+<li>Selected Software Engineering Project Management/Tools</li>
+</ul>
+</dd>
+<dt>We also adhere the following requiremnt:</dt>
+<dd><ol class="first last loweralpha simple">
+<li>Only Raspberry Pi model 3  be used</li>
+<li>You must use Python 3.* . Older versions must not be used.</li>
+<li>Our git repository: <a class="reference external" href="https://github.com/jasco111/PIOT-SMART_LIBRARY.git">https://github.com/jasco111/PIOT-SMART_LIBRARY.git</a></li>
+</ol>
+</dd>
+</dl>
+<p>For library users: The library user arrives at the reception. It is not manned by any person. The
+RECEPTION PI (RP) provides two options available for logging into the system:
+- using console-based system which allows them to type in the user credentials or,
+- using a facial recognition system</p>
+<p>The user registration is required for the first-time user. Upon registration the details are stored in a
+local database installed on RP. You may use sqlite3 or MySQL.
+Upon logging in, a success message along with the username is sent from RP to the MASTER PI
+(MP) via sockets.</p>
+<dl class="docutils">
+<dt>The user is now presented with another console-based application:</dt>
+<dd><ul class="first last simple">
+<li>search for book catalogues based on ISBN/Author name/Book name</li>
+<li>option for borrowing a book/books</li>
+<li>option for returning a book/books</li>
+<li>logout</li>
+</ul>
+</dd>
+</dl>
+<p>The business rules for these are described along with the requirements.
+Upon logging out a message is sent via sockets from MP to RP.</p>
+<p>For library admin: This is a separate website application that runs on MP. It can only be accessed
+by admin personnel. For simplicity purposes YOU CAN ASSUME that there is only one admin
+(credentials: username = jaqen, password = hghar).
+Admin website makes use of an API to
+- Add books to catalogue
+- Remove books and
+- Generate a data visualisation report for books borrowed (day and week wise)</p>
+<p>The book database is stored on a cloud environment namely the Google’s GCP IoT platform
+(Google Cloud Platform).</p>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to PIOT SMART LBRARY&#8217;s documentation!</a></li>
+      <li>Next: <a href="menu.html" title="next chapter">menu Doc</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/about.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/about.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

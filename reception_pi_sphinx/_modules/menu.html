@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>menu &#8212; PIOT SMART LBRARY 22/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '22/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="PIOT SMART LBRARY 22/05/2019 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for menu</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PIOT SMART LIBRARY </span>
+<span class="sd">    ~~~~~~~~~</span>
+<span class="sd">    This part is developing the consle-menu for the reception pi.</span>
+<span class="sd">    :copyright: © 2019 by the PIOT group 54 team.</span>
+<span class="sd">    :license: BSD, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1">#!/usr/bin/env python3</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">from</span> <span class="nn">bcrypt</span> <span class="k">import</span> <span class="n">hashpw</span><span class="p">,</span> <span class="n">gensalt</span><span class="p">,</span><span class="n">checkpw</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">client</span> <span class="k">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">validation</span> <span class="k">import</span> <span class="n">validate</span>
+<span class="kn">from</span> <span class="nn">passlib.hash</span> <span class="k">import</span> <span class="n">sha256_crypt</span>
+<span class="kn">from</span> <span class="nn">facial_re</span> <span class="k">import</span> <span class="n">recognise</span>
+
+<span class="c1"># a local database stroing user&#39;s infomation when they register</span>
+<span class="n">databaseName</span><span class="o">=</span><span class="s1">&#39;/home/pi/A2/profile.db&#39;</span>
+<span class="n">conn</span><span class="o">=</span><span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">databaseName</span><span class="p">)</span>
+
+<div class="viewcode-block" id="menu"><a class="viewcode-back" href="../menu.html#menu.menu">[docs]</a><span class="k">class</span> <span class="nc">menu</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;The menu object implements a console-menu based system for reception pi . It displays</span>
+<span class="sd">    selection for LMS users. New user will sign up with needed information and store in local </span>
+<span class="sd">    Sqlite3 dababase. Existing user uses unique email address and password to log in.</span>
+
+<span class="sd">    Email address parameter will be set a primary key and pass to the other python file as a variable.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    For running this application ,you need to use  Python 3.*,other version will be not supported.</span>
+<span class="sd">    Also you need to install necessary libraries for different modules.A simple command line will be:</span>
+<span class="sd">    pip3 install (module_name)</span>
+
+<span class="sd">    Make sure you have your own local Sqlite3 database created before running this application,see more at &#39;createdb.py&#39; file.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">display_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#: Display menu when True</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="c1">#: print a line with 30 &quot;-&quot; + MENU + 30 &quot;-&quot; , start of the menu</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span> <span class="p">,</span> <span class="s2">&quot;MENU&quot;</span> <span class="p">,</span> <span class="mi">30</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+            <span class="c1">#: print console menu   </span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Welcome</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Please select you want to start:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;1. Sign Up &quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;2. Log in with email&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;3. Facial login&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">0. Quit&quot;</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="p">(</span><span class="mi">67</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="c1">#: print a line with 67 &quot;-&quot; ,end of the menu</span>
+
+            <span class="c1">#: The input field with message prompt on the screen</span>
+            <span class="c1">#: the value will be passed by named &quot;choice&quot; to if-else statement </span>
+            <span class="n">choice</span><span class="o">=</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter your choice: &quot;</span><span class="p">)</span>
+
+            <span class="c1">#: Import validation.py script and named: check()</span>
+            <span class="c1">#: check() contains all functions in validate class    </span>
+            <span class="n">check</span><span class="o">=</span><span class="n">validate</span><span class="p">()</span>
+            <span class="c1">#: The if-elif-else statement is geeting choice parameter in the above input function</span>
+            <span class="c1">#: Compare the value and constant number 1,2,3,4 to go to different situations</span>
+            <span class="n">recogn</span> <span class="o">=</span> <span class="n">recognise</span><span class="p">()</span> <span class="c1">#: import the facial recognise function</span>
+            <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">):</span>
+                <span class="n">username</span><span class="o">=</span><span class="n">check</span><span class="o">.</span><span class="n">check_username</span><span class="p">()</span> <span class="c1">#: using validate function to create validated varabile</span>
+                <span class="n">hashPassword</span><span class="o">=</span><span class="n">check</span><span class="o">.</span><span class="n">check_password</span><span class="p">()</span> <span class="c1">#: using validate function to create validated varabile</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">check</span><span class="o">.</span><span class="n">check_name</span><span class="p">()</span> <span class="c1">#: using validate function to create validated varabile</span>
+                <span class="n">email</span><span class="o">=</span><span class="n">check</span><span class="o">.</span><span class="n">check_email</span><span class="p">()</span>   <span class="c1">#: using validate function to create validated varabile</span>
+                <span class="n">curs</span><span class="o">=</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+                <span class="n">curs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO profile_user VALUES ((?),(?),(?),(?))&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">hashPassword</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">email</span><span class="p">))</span>   <span class="c1">#: all validated varabiles are incerting to the local database</span>
+                <span class="n">curs</span><span class="o">=</span><span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+                <span class="n">curs</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO profile_user VALUES ((?),(?),(?),(?))&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span><span class="n">hashPassword</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">email</span><span class="p">))</span>
+                <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Signed up,please log in</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                
+            <span class="k">elif</span> <span class="n">choice</span><span class="o">==</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>
+                <span class="n">user_Email</span><span class="p">,</span><span class="n">passWord</span><span class="o">=</span><span class="n">check</span><span class="o">.</span><span class="n">check_login_status</span><span class="p">()</span> <span class="c1">#: using validate function to valid input value</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">user_Email</span><span class="p">)</span>
+                <span class="n">Client</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">user_Email</span><span class="p">)</span>  <span class="c1">#: Using function from client.py,connecting to thes server</span>
+
+            <span class="k">elif</span> <span class="n">choice</span><span class="o">==</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">):</span>            
+                <span class="n">user_Email</span><span class="o">=</span><span class="n">recogn</span><span class="o">.</span><span class="n">facial_recognise</span><span class="p">()</span> <span class="c1">#: calling facial recognistion function and assign new varabile to current function</span>
+                <span class="n">Client</span><span class="o">.</span><span class="n">get_details</span><span class="p">(</span><span class="n">user_Email</span><span class="p">)</span>  <span class="c1">#: Using function from client.py,connecting to thes server</span>
+
+            <span class="k">elif</span> <span class="n">choice</span><span class="o">==</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;exit&quot;</span><span class="p">)</span>
+                <span class="c1">#sys.exit()  #: safety exit the application</span>
+
+            <span class="k">else</span> <span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid selection,please enter number 1 or 2 or 0&quot;</span><span class="p">)</span>
+                <span class="k">return</span></div>
+
+<span class="c1">#: execute the main function</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">display</span><span class="o">=</span><span class="n">menu</span><span class="p">()</span>
+    <span class="n">display</span><span class="o">.</span><span class="n">display_menu</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
