@@ -1,11 +1,15 @@
 import pymysql
+import json
 
 
 class DatabaseUtils():
-    HOST = "35.244.94.254"
-    USER = "root"
-    PASSWORD = "password"
-    DATABASE = "lms"
+    
+    with open("cloudConnection.json") as read:
+        data = json.load(read)
+    HOST = data['host']
+    USER = data['user']
+    PASSWORD = data['password']
+    DATABASE = data['database']
 
     def __init__(self, connection=None):
         if(connection == None):
@@ -22,72 +26,12 @@ class DatabaseUtils():
     def __exit__(self, type, value, traceback):
         self.close()
 
-    def createBookTable(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("""
-                create table if not exists Book(
-                    BookID int not null auto_increment,
-                    Name text not null,
-                    constraint FK_BookID foreign key (BookID)
-                )""")
-        self.connection.commit()
-
-    def createBorrowedBookTable(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("""
-                create table if not exists  BorrowedBook (
-                    BorrowedBook int not null auto_increment,
-                    Name text not null,
-                    constraint FK_BorrowedBook foreign key (BorrowedBook)
-                )""")
-        self.connection.commit()
-
-    def createUserTable(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("""
-                create table if not exists LmsUser (
-                    LmsUserID int not null auto_increment,
-                    Name text not null,
-                    constraint FK_UserID foreign key (UserID)
-                    constraint UN_UserName unique (UserName)
-                )""")
-        self.connection.commit()
-
-    def createEventTable(self):
-        with self.connection.cursor() as cursor:
-            cursor.execute("""
-                create table if not exists Event (
-                    EventID int not null auto_increment,
-                    Name text not null,
-                    constraint PK_EventID primary key (EventID)
-                )""")
-        self.connection.commit()
-
-    def insertBook(self, title, author):
-        with self.connection.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO Book (Title, Author) values ((?), (?))", (title, author))
-        self.connection.commit()
-
-        return cursor.rowcount == 1
-
-    def addUser(self, username, name, email):
-        with self.connection.cursor() as cursor:
-            cursor.execute(
-                "INSERT INTO LmsUser (UserName, Name, Email) values (%s, %s, %s)", (username, name, email))
-        self.connection.commit()
-
     def checkTable(self, bookID):
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "SELECT BookID FROM BookBorrowed WHERE BookID = %s", (bookID))
             result = cursor.fetchall()
             return result
-
-    def deleteBook(self, BookID):
-        with self.connection.cursor() as cursor:
-            cursor.execute("delete from Person where BookID = %s", (BookID))
-        self.connection.commit()
 
     def getUserID(self, email):
         with self.connection.cursor() as cursor:

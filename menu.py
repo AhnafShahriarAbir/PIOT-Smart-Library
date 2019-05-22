@@ -31,8 +31,6 @@ class menu():
                 curs=conn.cursor()
                 curs.execute("INSERT INTO profile_user VALUES ((?),(?),(?),(?))", (username,hashPassword,name,email))
                 conn.commit()
-                create = DatabaseUtils()
-                create.addUser(username, name, email)
                 print("\nSigned up,please log in\n")
                 
             elif choice==("2"):
