@@ -1,6 +1,0 @@
-Code docs
-=========
-
-.. module:: menu
-.. autoclass:: menu
-    :members:
