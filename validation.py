@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
 from passlib.hash import sha256_crypt
-#from validate_email import validate_email
 import sys
 import socket
 import re
@@ -11,30 +10,32 @@ HOST = "192.168.0.120"
 # HOST = "127.0.0.1" # The server's hostname or IP address.
 PORT = 65001         # The port used by the server.
 ADDRESS = (HOST, PORT)
-databaseName='profile.db'
-conn=sqlite3.connect(databaseName)
+databaseName = 'profile.db'
+conn = sqlite3.connect(databaseName)
+
 
 class validate():
-    #The check_username() requirement user enter their user name,length should be less than 7,valid input is number,character ,"_""-"
+    # The check_username() requirement user enter their user name,length should be less than 7,valid input is number,character ,"_""-"
     def check_username(self):
         while True:
-            username=input("Enter your username : ")
+            username = input("Enter your username : ")
             if len(username) < 7:
                 if re.match("^[a-zA-Z0-9]+([a-zA-Z0-9](_|-| )[a-zA-Z0-9])*[a-zA-Z0-9]*$", username) != None:
                     print("Valid user name")
                     break
-            else :
+            else:
                 False
                 print("Invalid user name")
             
-        self.username=username
+        self.username = username
         return (self.username)
-    #The check_password() will ask user enter password for twice,the password will be :
+    # The check_password() will ask user enter password for twice,the password will be :
     # length between 6 to 12 
     # at least one character 
     # at least one number 
     # at least one symbol between "[@#$]" 
     # space is not allowed
+    
     def check_password(self):
         while True:
             password=input("Enter your password : ")

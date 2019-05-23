@@ -105,6 +105,13 @@ class DatabaseUtils():
             return rows
     
     def searchBookByID(self, id):
+        """
+            This method searches the database with given bookid as 
+            the parameter. 
+            Then calls the return book method and passes the id as
+            parameter to return the book.
+            author: @shahriar_abir
+        """
         with self.connection.cursor() as cursor:
             cursor.execute("SELECT * FROM Book WHERE BookId = %s", (id))
             row = cursor.fetchone()
@@ -121,6 +128,13 @@ class DatabaseUtils():
             return result
 
     def returnBook(self, bookID):
+        """
+            This method takes bookID as a parameter. 
+                Deletes the row from BookBorrrowed table where BookId is the parameter
+                Updates status of the book to 'Available'
+                Deletes the event that was created when borrowing the book. 
+            author: @shahriar_abir
+        """
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))

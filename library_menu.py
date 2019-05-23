@@ -1,7 +1,8 @@
 """
     PIOT SMART LIBRARY 
     ~~~~~~~~~
-    This part is developing the consle-menu for the Master pi after successfully log in.
+    This part is developing the consle-menu for
+    the Master pi after successfully log in.
     :copyright: © 2019 by the PIOT group 54 team.
     :license: BSD, see LICENSE for more details.
 """
@@ -112,6 +113,22 @@ class library_menu():
                 continue
 
     def getBookByName(self, userID):
+        """ 
+            This method is called when User chooses the 1st option to Search the book. 
+                This method asks for bookname input at first, and then searches the database with that book name. 
+                Returns: book name if found.
+                
+                Based on the result, user is provided with another input console to enter the book Id. 
+                Next the method checks whether the book with that book id is available or not. 
+                If available, 
+                    an event is created, book is added to bookborrowed table and also the event is added to the events table in lms Database.
+                    "BOOK BORROWED" is printed when all the actions are done.
+                else
+                    "The book is not found" printed 
+            
+            This method is called second time in option 2 where a book search by voice did not work. 
+            author: @shahriar_abir
+        """
         bookName = input("Enter the name of the book: ")
         result = create.searchBook(bookName)
         if not result or len(bookName) == 0:
@@ -121,11 +138,11 @@ class library_menu():
         for row in result:
             print('ID: ', row[0], ' TITLE: ', row[1],
                     '   AUTHOR: ', row[2], 'STATUS: ', row[3])  #: print all the result in the table
-
-        userInput = input(
-            "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
+        
         for row in result:
             if userInput == str(row[0]) and row[3] == 'Available':  #: the book status shows available,and execute the if statement
+                userInput = input(
+                    "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
                 tableData = create.checkTable(userInput)
                 if not tableData:   #: if no event found ,create new event
                     create.borrowBook(row[0], row[1], userID)   #: add to the borrow book table for new borrow
