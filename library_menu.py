@@ -16,6 +16,7 @@ from searchByBookName import VoiceSearch
 create = DatabaseUtils()
 event = CalendarEvent()
 
+
 class library_menu():
     """This library_menu class is another console-based applicaiton supporting the menu.py. After successed log in attempt,
     Menu.py will direct and turn to execute this script.
@@ -69,8 +70,7 @@ class library_menu():
                 result = create.showBorrowedBooks(userID)   # select filted data from the database 
                 if not result:
                     print("You have not borrowed any books yet.")   #: message for no result founding 
-                    return
-
+                    continue
                 else:
                     for row in result:
                         print('ID: ', row[0], ' TITLE: ', row[1])   #: print out all the borrowed book

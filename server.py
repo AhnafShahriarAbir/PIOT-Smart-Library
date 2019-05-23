@@ -24,7 +24,8 @@ def main():
                 
                 user = data.decode()
                 print("User connected: " + user)
-                library_menu.display_menu(user)
+                lb = library_menu()
+                lb.display_menu(user)
                 str ="logout"
                 conn.sendall(str.encode())
         
