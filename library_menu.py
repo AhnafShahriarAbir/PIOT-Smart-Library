@@ -41,13 +41,13 @@ class library_menu():
             print("2. Return ")
             print("3. Logout")
             print(" ")
-            print(70 * "-") #: print a line with 67 "-" ,end of the menu
+            print(70 * "-") #? print a line with 67 "-" ,end of the menu
             
             #: The input field with message prompt on the screen 
             #: the value will be passed by named "choice" to if-else statement
             choice = input("Enter your choice: ")
 
-            userID = create.getUserID(user_email)   #:assign the userID by passing the value from calendarEvent
+            userID = create.getUserID(user_email)   #? assign the userID by passing the value from calendarEvent
             if choice == ("1"): # :print the selection for master pi
                 print("Choose an option to Search for Book:")
                 print("1. Search by Book name")
