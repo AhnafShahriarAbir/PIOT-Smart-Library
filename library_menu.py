@@ -112,8 +112,3 @@ class library_menu():
                     print("BOOK ALREADY BORROWED!")
             elif userInput == str(row[0]) and row[3] == 'Unavailable':
                 print("That book is not available.")
-
-
-a = library_menu()
-
-a.display_menu("abir3@gmail.com")
