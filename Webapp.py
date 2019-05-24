@@ -29,6 +29,12 @@ def dashboard():
             return redirect(url_for('insertBook'))
         elif request.form['button'] == 'Delete a Book':
             return redirect(url_for('deleteBook'))
+        elif request.form['button'] == 'Hourly Report':
+            return redirect(url_for('dayReport'))
+        elif request.form['button'] == 'Weekly Report':
+            return redirect(url_for('weekReport'))
+        elif request.form['button'] == 'Dashboard':
+            return redirect(url_for('dashboard'))
 
 
 @app.route('/insert', methods=['GET', 'POST'])
@@ -48,9 +54,24 @@ def deleteBook():
         result = create.showBooks()
         return render_template('delete.html', result = result)
     elif request.method == 'POST':
-        create.deleteBook(request.form['id'])
+        create.deleteBook(request.form['id'], request.link['insert.html'])
         return('<h2> Book deleted from the database! </h2>')
 
+@app.route('/reportDay', methods=['GET', 'POST'])
+def dayReport():
+    if request.method == 'GET':
+        return render_template('reportDay.html')
+    elif request.method == 'POST':
+        create.dayReport(request.form['day'])
+        return('<h2> Day Report added to the database! </h2>')
+
+@app.route('/reportWeek', methods=['GET', 'POST'])
+def weekReport():
+    if request.method == 'GET':
+        return render_template('reportWeek.html')
+    elif request.method == 'POST':
+        create.weekReport(request.form['week'])
+        return('<h2> Week Report added to the database! </h2>')
 
 if __name__ == "__main__":
     host = os.popen('hostname -I').read()

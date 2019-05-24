@@ -1,7 +1,66 @@
-<html>
-  <form method="POST">
-    <input type="text" name="title" placeholder="Book Title" />
-    <input type="text" name="author" placeholder="Book Author" />
-    <input type="submit" />
-  </form>
-</html>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<form method="POST">
+ 
+<nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" value= href="dashboard.html">Dashboard</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <button type="submit" class="btn btn-danger navbar-btn" name="button" value="Insert a New Book">Insert a Book</button>
+            <button type="submit" class="btn btn-danger navbar-btn" name="button" value="Delete a Book">Remove a Book</button>
+          </ul>
+          
+        </div>
+      </nav>
+    
+      <div class="container">  
+            
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Add Book</div>
+                  
+                    </div>     
+
+                    <div style="padding-top:30px" class="panel-body" >
+
+                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                            
+                        
+                                    
+                            <div style="margin-bottom: 25px" class="input-group">
+                                           
+                                        <label for="title">Book Title:</label>
+                                        <input type="text" id="title" placeholder="Book Title" name="title" class="form-control" required />                                   
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                         <label for="author">Book Author:</label>
+                      					 <input type="text"  id="author" placeholder="Book Author" name="author" class="form-control" required />
+                                    </div>
+                                    
+
+      
+
+
+                                <div style="margin-top:10px" class="form-group">
+                                    <!-- Button -->
+
+                                    <div class="col-sm-12 controls">
+                                      
+          							<input type="submit"  class="btn btn-primary"/>
+                             
+
+
+
+                        </div>                     
+                    </div>  
+        </div>
+   
+    
+    </div>
+</form>   
