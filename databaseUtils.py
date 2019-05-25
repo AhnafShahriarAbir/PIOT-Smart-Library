@@ -1,9 +1,10 @@
 import pymysql
 import json
+import datetime
 
 
 class DatabaseUtils():
-    
+
     with open("cloudConnection.json") as read:
         data = json.load(read)
     HOST = data['host']
@@ -57,19 +58,26 @@ class DatabaseUtils():
             return result
 
     def returnBook(self, bookID):
+        returnDate = datetime.date.today()
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
             cursor.execute(
                 "UPDATE Book SET Status = 'Available' WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "UPDATE Graph SET Returned = Returned + 1 WHERE Time = %s", (returnDate,))
         self.connection.commit()
 
     def borrowBook(self, bookID, title, userID):
+        borrowDate = datetime.datetime.now()
+        print(borrowDate)
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
             cursor.execute(
                 "UPDATE Book SET Status = 'Unavailable' WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "UPDATE Graph SET Borrowed = Borrowed + 1 WHERE Time = %s", (borrowDate,))
         self.connection.commit()
 
     def eventTable(self, bookID, eventID):
