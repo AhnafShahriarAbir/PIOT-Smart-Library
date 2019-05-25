@@ -46,7 +46,7 @@ class TestDatabaseUtils(unittest.TestCase):
             cursor.execute("select count(*) from Book where bookID = %s", (bookName,))
             return cursor.fetchone()[0]
 
-   #should work
+
     def test_eventTable(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countEvent()
