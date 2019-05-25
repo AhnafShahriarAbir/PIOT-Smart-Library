@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>searchByBookName &#8212; PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '23/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for searchByBookName</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PIOT SMART LIBRARY </span>
+<span class="sd">    ~~~~~~~~~~~~~~~~~~~</span>
+<span class="sd">    This part is using the voice-to-text function to get a string passing to the search book function.</span>
+<span class="sd">    :copyright: © 2019 by the PIOT group 54 team.</span>
+<span class="sd">    :license: BSD, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">speech_recognition</span> <span class="k">as</span> <span class="nn">sr</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span><span class="o">,</span> <span class="nn">subprocess</span>
+<span class="n">MIC_NAME</span> <span class="o">=</span> <span class="s2">&quot;Microsoft® LifeCam HD-3000: USB Audio (hw:1,0)&quot;</span>
+
+<span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;35.244.94.254&quot;</span>
+<span class="n">USER</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span>
+<span class="n">PASSWORD</span> <span class="o">=</span> <span class="s2">&quot;password&quot;</span>
+<span class="n">DATABASE</span> <span class="o">=</span> <span class="s2">&quot;lms&quot;</span>
+
+
+<div class="viewcode-block" id="VoiceSearch"><a class="viewcode-back" href="../searchByBookName.html#searchByBookName.VoiceSearch">[docs]</a><span class="k">class</span> <span class="nc">VoiceSearch</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This class is used to look for a book by using voice.</span>
+<span class="sd">    The class is called in library_menu, when an user wants to</span>
+<span class="sd">    search for a book by using his/her voice. </span>
+<span class="sd">    author: @shahriar_abir</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="VoiceSearch.main"><a class="viewcode-back" href="../searchByBookName.html#searchByBookName.VoiceSearch.main">[docs]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method calls the getBookNameToSearch first and assigns the returned value to bookName.</span>
+<span class="sd">            If bookName is none, then prints &quot;Failed to get the book&quot;</span>
+
+<span class="sd">            Once the bookName is found, the searchBook(bookName) is called which takes the bookName as the parameter</span>
+<span class="sd">            we got from the first method. </span>
+
+<span class="sd">            If book is found, prints the result. </span>
+<span class="sd">            author: @shahriar_abir</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bookName</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">getBookNameToSearch</span><span class="p">()</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">bookName</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to get book name.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Looking for book with title &#39;</span><span class="si">{}</span><span class="s2">&#39;...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bookName</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">()</span>
+
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">searchBook</span><span class="p">(</span><span class="n">bookName</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Found:&quot;</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">rows</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No results found.&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span></div>
+
+    <span class="k">def</span> <span class="nf">getBookNameToSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># To test searching without the microphone uncomment this line of code</span>
+        <span class="c1"># return input(&quot;Enter the Book name to search for: &quot;)</span>
+
+        <span class="c1"># Set the device ID of the mic that we specifically want</span>
+        <span class="c1"># to use to avoid ambiguity</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">microphone_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+           <span class="n">sr</span><span class="o">.</span><span class="n">Microphone</span><span class="o">.</span><span class="n">list_microphone_names</span><span class="p">()):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">microphone_name</span> <span class="o">==</span> <span class="n">MIC_NAME</span><span class="p">):</span>
+                <span class="n">device_id</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">break</span>
+
+        <span class="c1"># obtain audio from the microphone</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">sr</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">sr</span><span class="o">.</span><span class="n">Microphone</span><span class="p">(</span><span class="n">device_index</span><span class="o">=</span><span class="n">device_id</span><span class="p">)</span> <span class="k">as</span> <span class="n">source</span><span class="p">:</span>
+            <span class="c1"># clear console of errors</span>
+            <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s2">&quot;clear&quot;</span><span class="p">)</span>
+
+            <span class="c1"># wait for a second to let the recognizer adjust the</span>
+            <span class="c1"># energy threshold based on the surrounding noise level</span>
+            <span class="n">r</span><span class="o">.</span><span class="n">adjust_for_ambient_noise</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Say the Book name to search for.&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">audio</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">sr</span><span class="o">.</span><span class="n">WaitTimeoutError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># recognize speech using Google Speech Recognition</span>
+        <span class="n">bookName</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># for testing purposes, we&#39;re just using the default API key</span>
+            <span class="c1"># to use another API key, use `r.recognize_google</span>
+            <span class="c1"># (audio, key=&quot;GOOGLE_SPEECH_RECOGNITION_API_KEY&quot;)`</span>
+            <span class="c1"># instead of `r.recognize_google(audio)`</span>
+            <span class="n">bookName</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">recognize_google</span><span class="p">(</span>
+                <span class="n">audio</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">bookName</span>
+        <span class="k">except</span><span class="p">(</span><span class="n">sr</span><span class="o">.</span><span class="n">UnknownValueError</span><span class="p">,</span> <span class="n">sr</span><span class="o">.</span><span class="n">RequestError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">bookName</span>
+
+<div class="viewcode-block" id="VoiceSearch.searchBook"><a class="viewcode-back" href="../searchByBookName.html#searchByBookName.VoiceSearch.searchBook">[docs]</a>    <span class="k">def</span> <span class="nf">searchBook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bookName</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            This method takes bookName as a parameter and searches </span>
+<span class="sd">            for that book in database after the connection is</span>
+<span class="sd">            made by using MySQLdb.connect. </span>
+<span class="sd">            author: @shahriar_abir</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">USER</span><span class="p">,</span> <span class="n">PASSWORD</span><span class="p">,</span> <span class="n">DATABASE</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span> <span class="k">as</span> <span class="n">cursor</span><span class="p">:</span>
+            <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                <span class="s2">&quot;select * from Book where title = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">bookName</span><span class="p">,))</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+        <span class="n">connection</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">rows</span></div></div>
+       
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

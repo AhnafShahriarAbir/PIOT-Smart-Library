@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>library_menu &#8212; PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '23/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for library_menu</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PIOT SMART LIBRARY </span>
+<span class="sd">    ~~~~~~~~~</span>
+<span class="sd">    This part is developing the consle-menu for the Master pi after successfully log in.</span>
+<span class="sd">    :copyright: © 2019 by the PIOT group 54 team.</span>
+<span class="sd">    :license: BSD, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#!/usr/bin/env python3</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">calendarEvent</span> <span class="k">import</span> <span class="n">CalendarEvent</span>
+<span class="kn">from</span> <span class="nn">databaseUtils</span> <span class="k">import</span> <span class="n">DatabaseUtils</span>
+<span class="kn">from</span> <span class="nn">barcode_scanner</span> <span class="k">import</span> <span class="n">barcode</span>
+<span class="kn">from</span> <span class="nn">searchByBookName</span> <span class="k">import</span> <span class="n">VoiceSearch</span>
+<span class="n">create</span> <span class="o">=</span> <span class="n">DatabaseUtils</span><span class="p">()</span>
+<span class="n">event</span> <span class="o">=</span> <span class="n">CalendarEvent</span><span class="p">()</span>
+
+<div class="viewcode-block" id="library_menu"><a class="viewcode-back" href="../library_menu.html#library_menu.library_menu">[docs]</a><span class="k">class</span> <span class="nc">library_menu</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;This library_menu class is another console-based applicaiton supporting the menu.py. After successed log in attempt,</span>
+<span class="sd">    Menu.py will direct and turn to execute this script.</span>
+
+<span class="sd">    The library_menu class displays the next console menu for LMS users once they log in to the application. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="library_menu.display_menu"><a class="viewcode-back" href="../library_menu.html#library_menu.library_menu.display_menu">[docs]</a>    <span class="k">def</span> <span class="nf">display_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_email</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Passing the primary key from last console based menu and start to display another console based menu. Providing users selection</span>
+<span class="sd">        to make next command.</span>
+<span class="sd">        </span>
+<span class="sd">        The display_menu(user_eamil) function implements a certain amount of code for add/delete/update a database with few different</span>
+<span class="sd">        table by calling google cloud platform, all the data store in the google cloud , calling method via MySQL query.</span>
+
+<span class="sd">        By printing out selected data to the consloe menu, user input their selection accordinlgy.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="mi">30</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;LIBRARY MENU&quot;</span><span class="p">,</span> <span class="mi">30</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>   <span class="c1">#: print a line with 30 &quot;-&quot; + MENU + 30 &quot;-&quot;,start of the menu </span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Welcome to the library, &quot;</span> <span class="o">+</span> <span class="n">user_email</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please select you want to start:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Search Book Catalogue and Borrow &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Return &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Logout&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="mi">70</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span> <span class="c1">#: print a line with 67 &quot;-&quot; ,end of the menu</span>
+            
+            <span class="c1">#: The input field with message prompt on the screen </span>
+            <span class="c1">#: the value will be passed by named &quot;choice&quot; to if-else statement</span>
+            <span class="n">choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter your choice: &quot;</span><span class="p">)</span>
+
+            <span class="n">userID</span> <span class="o">=</span> <span class="n">create</span><span class="o">.</span><span class="n">getUserID</span><span class="p">(</span><span class="n">user_email</span><span class="p">)</span>   <span class="c1">#:assign the userID by passing the value from calendarEvent</span>
+            <span class="k">if</span> <span class="n">choice</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">):</span> <span class="c1"># :print the selection for master pi</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Choose an option to Search for Book:&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Search by Book name&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Use voice search&quot;</span><span class="p">)</span>
+                <span class="n">option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the selection: &quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">getBookByName</span><span class="p">(</span><span class="n">userID</span><span class="p">)</span>
+    
+                <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>   <span class="c1">#:boost up the voice search function</span>
+                    <span class="n">vc</span> <span class="o">=</span> <span class="n">VoiceSearch</span><span class="p">()</span>  <span class="c1">#:voice to text</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">vc</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">getBookByName</span><span class="p">(</span><span class="n">userID</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="mi">70</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+                
+            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BOOKS BORROWED:&quot;</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">create</span><span class="o">.</span><span class="n">showBorrowedBooks</span><span class="p">(</span><span class="n">userID</span><span class="p">)</span>   <span class="c1"># select filted data from the database </span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You have not borrowed any books yet.&quot;</span><span class="p">)</span>   <span class="c1">#: message for no result founding </span>
+                    <span class="k">return</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ID: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; TITLE: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>   <span class="c1">#: print out all the borrowed book</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Choose an option to return:&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Return by ID:&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Return by scanning QR code &quot;</span><span class="p">)</span>
+                <span class="n">option</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the selection: &quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">):</span>
+                    <span class="n">userInput</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+                        <span class="s2">&quot;Enter the ID of the book you want to return: &quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">userInput</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>    <span class="c1">#: match the book id with user input</span>
+                            <span class="n">create</span><span class="o">.</span><span class="n">returnBook</span><span class="p">(</span><span class="n">userInput</span><span class="p">)</span>    <span class="c1">#: delete and update the specific row with the bookID in database</span>
+                            <span class="n">eventID</span> <span class="o">=</span> <span class="n">create</span><span class="o">.</span><span class="n">getEventID</span><span class="p">(</span><span class="n">userInput</span><span class="p">)</span>  <span class="c1">#: add event to the calendar according to the bookID and status</span>
+                            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">eventID</span><span class="p">:</span>
+                                <span class="n">event</span><span class="o">.</span><span class="n">deleteEvent</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="n">create</span><span class="o">.</span><span class="n">deleteEvent</span><span class="p">(</span><span class="n">userInput</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BOOK RETURNED!&quot;</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span>
+                             <span class="s2">&quot;Enter ID of the Book to borrow </span><span class="se">\n</span><span class="s2">Press any other key to return to the menu</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">option</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">):</span>
+                    <span class="n">barCode</span> <span class="o">=</span> <span class="n">barcode</span><span class="p">()</span> <span class="c1"># boost up the barcode scan function, if barcode scann and decode as bookID,execute next command</span>
+                    <span class="n">barCode</span><span class="o">.</span><span class="n">getQR</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Book returned.&quot;</span><span class="p">)</span>
+                    
+                <span class="nb">print</span><span class="p">(</span><span class="mi">70</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">elif</span> <span class="n">choice</span> <span class="o">==</span> <span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">):</span>    <span class="c1">#:log out from the master pi</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Logging Out...&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="mi">70</span> <span class="o">*</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="k">return</span>  <span class="c1"># :loop back to the listening </span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid selection,please enter number 1, 2 or 3&quot;</span><span class="p">)</span>
+                <span class="k">continue</span></div>
+
+    <span class="k">def</span> <span class="nf">getBookByName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">userID</span><span class="p">):</span>
+        <span class="n">bookName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Enter the name of the book: &quot;</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">create</span><span class="o">.</span><span class="n">searchBook</span><span class="p">(</span><span class="n">bookName</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">bookName</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Invalid input or Book doesnt exist!&quot;</span><span class="p">)</span>    <span class="c1">#：error message for getting book name </span>
+            
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">SEARCH RESULTS:</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ID: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39; TITLE: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="s1">&#39;   AUTHOR: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;STATUS: &#39;</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>  <span class="c1">#: print all the result in the table</span>
+
+        <span class="n">userInput</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Enter ID of the Book to borrow </span><span class="se">\n</span><span class="s2">Press any other key to return to the menu</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">userInput</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Available&#39;</span><span class="p">:</span>  <span class="c1">#: the book status shows available,and execute the if statement</span>
+                <span class="n">tableData</span> <span class="o">=</span> <span class="n">create</span><span class="o">.</span><span class="n">checkTable</span><span class="p">(</span><span class="n">userInput</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">tableData</span><span class="p">:</span>   <span class="c1">#: if no event found ,create new event</span>
+                    <span class="n">create</span><span class="o">.</span><span class="n">borrowBook</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">userID</span><span class="p">)</span>   <span class="c1">#: add to the borrow book table for new borrow</span>
+                    <span class="n">eventID</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">addEvent</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>    <span class="c1">#: add new event to the event table </span>
+                    <span class="n">create</span><span class="o">.</span><span class="n">eventTable</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">eventID</span><span class="p">)</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">BOOK BORROWED!&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BOOK ALREADY BORROWED!&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">userInput</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="n">row</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Unavailable&#39;</span><span class="p">:</span>  <span class="c1">#: check status</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;That book is not available.&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1">#a = library_menu()</span>
+
+<span class="c1">#a.display_menu(&quot;abir3@gmail.com&quot;)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">library_menu</span><span class="o">.</span><span class="n">display_menu</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
