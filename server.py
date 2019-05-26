@@ -51,6 +51,7 @@ def main():
                 
                 user = data.decode()
                 print("User connected: " + user)
+                #: for testing server purpose, uncomment the library_menu.display_menu
                 library_menu.display_menu(user)
                 str ="logout"
                 conn.sendall(str.encode())

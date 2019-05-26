@@ -15,7 +15,7 @@ class testMenu(unittest.TestCase):
                 s.connect(ADDRESS)               
                 s.sendall(useremail.encode()) #: sending encoded primary key to master pi
                 data=s.recv(4096)
-                self.assertEqual(data.decode(),"logout111@gmail.com")
+                self.assertEqual(data.decode(),"logout")
                 break
         
 
