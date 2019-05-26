@@ -30,6 +30,8 @@ class TestDatabaseUtils(unittest.TestCase):
             cursor.execute("select count(*) from Book")
             return cursor.fetchone()[0]
     
+   
+    
     def test_insertBook(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countBook()
@@ -37,6 +39,8 @@ class TestDatabaseUtils(unittest.TestCase):
             self.assertTrue(count + 1 == self.countBook())
             self.assertTrue(db.insertBook("Digimon", "Jones"))
             self.assertTrue(count + 2 == self.countBook())
+
+
 
     def test_showBook(self):
         with DatabaseUtils(self.connection) as db:
