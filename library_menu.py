@@ -48,7 +48,8 @@ class library_menu():
             #: the value will be passed by named "choice" to if-else statement
             choice = input("Enter your choice: ")
 
-            userID = create.getUserID(user_email)   #? assign the userID by passing the value from calendarEvent
+            # ? assign the userID by passing the value from calendarEvent
+            userID = create.getUserID(user_email)
             if choice == ("1"): # :print the selection for master pi
                 print("Choose an option to Search for Book:")
                 print("1. Search by Book name")
@@ -58,11 +59,34 @@ class library_menu():
                 if option == ("1"):
                     self.getBookByName(userID)
     
-                elif option == ("2"):   #:boost up the voice search function
-                    vc = VoiceSearch()  #:voice to text
+                elif option == ("2"):   #: boost up the voice search function
+                    vc = VoiceSearch()  #: voice to text
                     result = vc.main()
+                    
                     if result is None:
-                        self.getBookByName(userID)
+                        print("Do you want to search again?")
+                        answer = input("Enter y: ")
+                        if answer == "y":
+                            vc = VoiceSearch()  # :voice to text
+                            result = vc.main()
+                            return
+                        else:
+                            return
+                    else:
+                        print(result[0][0])
+                        print(result[0][1])
+                        userInput = input(
+                            "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
+                        tableData = create.checkTable(str(userInput))
+                        if not tableData:   #: if no event found ,create new event
+                            #: add to the borrow book table for new borrow
+                            create.borrowBook(str(result[0][0]), str(result[0][1]), userID)
+                            #: add new event to the event table
+                            eventID = event.addEvent(str(result[0][1]))
+                            create.eventTable(str(result[0][0]), eventID)
+                            print("\nBOOK BORROWED!")
+                        else:
+                            print("BOOK ALREADY BORROWED!")
                 print(70 * "-")
                 continue
                 
@@ -138,18 +162,18 @@ class library_menu():
         for row in result:
             print('ID: ', row[0], ' TITLE: ', row[1],
                     '   AUTHOR: ', row[2], 'STATUS: ', row[3])  #: print all the result in the table
-        
-        for row in result:
-            if userInput == str(row[0]) and row[3] == 'Available':  #: the book status shows available,and execute the if statement
-                userInput = input(
-                    "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
-                tableData = create.checkTable(userInput)
+            userInput = input(
+                 "\nEnter ID of the Book to borrow \nPress any other key to return to the menu\n")
+            if userInput == str(row[0]) and row[3] == 'Available':  #: the book status shows available,and execute the if statement 
+                tableData = create.checkTable(str(userInput))
                 if not tableData:   #: if no event found ,create new event
-                    create.borrowBook(row[0], row[1], userID)   #: add to the borrow book table for new borrow
-                    eventID = event.addEvent(row[1])    #: add new event to the event table 
-                    create.eventTable(row[0], eventID)
+                    print(str(row[0]), str(row[1]), userID)
+                    create.borrowBook(str(row[0]), str(row[1]), userID)   #: add to the borrow book table for new borrow
+                    eventID = event.addEvent(str(row[1]))    #: add new event to the event table 
+                    create.eventTable(str(row[0]), eventID)
                     print("\nBOOK BORROWED!")
                 else:
                     print("BOOK ALREADY BORROWED!")
             elif userInput == str(row[0]) and row[3] == 'Unavailable':  #: check status
                 print("That book is not available.")
+

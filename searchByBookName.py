@@ -45,7 +45,8 @@ class VoiceSearch():
 
     def getBookNameToSearch(self):
         """
-            This method is used for getting user's voice and convert it into text using 
+            This method is used for getting user's voice 
+            and convert it into text using 
             google's voice recoginition tool. 
             author: @shahriar_abir
         """
@@ -55,7 +56,7 @@ class VoiceSearch():
                 device_id = i
                 break
 
-        #? obtain audio from the microphone
+        #: obtain audio from the microphone
         r = sr.Recognizer()
         with sr.Microphone(device_index=device_id) as source:
             # clear console of errors
