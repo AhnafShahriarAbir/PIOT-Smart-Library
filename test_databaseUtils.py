@@ -50,9 +50,9 @@ class TestDatabaseUtils(unittest.TestCase):
     def test_eventTable(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countEvent()
-            self.assertFalse(db.eventTable("10", "abcdefgh"))
+            self.assertTrue(db.eventTable("10", "abcdefgh"))
             self.assertTrue(count + 1 == self.countEvent())
-            self.assertFalse(db.eventTable("11", "zxcvbnm"))
+            self.assertTrue(db.eventTable("11", "zxcvbnm"))
             self.assertTrue(count + 2 == self.countEvent())
   
     def test_borrowBook(self):
