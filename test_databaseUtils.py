@@ -43,25 +43,24 @@ class TestDatabaseUtils(unittest.TestCase):
 
     def bookSearch(self, bookName):
         with self.connection.cursor() as cursor:
-            cursor.execute("select count(*) from Book where bookID = %s", (bookName,))
+            cursor.execute("select count(*) from Book where Title LIKE %s", ("%" + bookName + "%"))
             return cursor.fetchone()[0]
 
 
     def test_eventTable(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countEvent()
-            self.assertTrue(db.eventTable("10", "abcdefgh"))
+            self.assertTrue(db.eventTable("40", "abcdefgh"))
             self.assertTrue(count + 1 == self.countEvent())
-            self.assertTrue(db.eventTable("11", "zxcvbnm"))
+            self.assertTrue(db.eventTable("41", "zxcvbnm"))
             self.assertTrue(count + 2 == self.countEvent())
   
     def test_borrowBook(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countBook()
-            self.assertFalse(db.borrowBook("1", "Cat", "1"))
+            self.assertFalse(db.borrowBook("1", "Harry Potter", "1"))
             self.assertTrue(count + 1 == self.countBook())
-            self.assertFalse(db.borrowBook("2", "Dog", "1"))
-            self.assertTrue(count + 2 == self.countBook())
+            
   
     def test_returnBook(self):
         with DatabaseUtils(self.connection) as db:
@@ -74,8 +73,8 @@ class TestDatabaseUtils(unittest.TestCase):
     
     def test_searchBook(self):
         with DatabaseUtils(self.connection) as db:
-            count = self.bookSearch("the")
-            self.assertFalse(count == len(db.searchBook("the")))
+            search = "harry"
+            self.assertTrue(self.bookSearch(search) == len(db.searchBook(search)))
 
 if __name__ == "__main__":
     unittest.main()

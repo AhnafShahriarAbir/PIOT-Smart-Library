@@ -58,24 +58,28 @@ class DatabaseUtils():
             return result
 
     def returnBook(self, bookID):
-        returnDate = datetime.date.today()
+        returnDate = datetime.datetime.now().strftime("%Y-%m-%d %H")
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "DELETE FROM BookBorrowed WHERE BookID = %s", (bookID))
             cursor.execute(
                 "UPDATE Book SET Status = 'Available' WHERE BookID = %s", (bookID))
             cursor.execute(
+                "INSERT IGNORE INTO Graph (Time) VALUES (%s)", (returnDate,))
+            cursor.execute(
                 "UPDATE Graph SET Returned = Returned + 1 WHERE Time = %s", (returnDate,))
         self.connection.commit()
 
     def borrowBook(self, bookID, title, userID):
-        borrowDate = datetime.datetime.now()
+        borrowDate = datetime.datetime.now().strftime("%Y-%m-%d %H")
         print(borrowDate)
         with self.connection.cursor() as cursor:
             cursor.execute(
                 "INSERT INTO BookBorrowed (BookID, Title, LmsUserID) VALUES (%s, %s, %s)", (bookID, title, userID))
             cursor.execute(
                 "UPDATE Book SET Status = 'Unavailable' WHERE BookID = %s", (bookID))
+            cursor.execute(
+                "INSERT IGNORE INTO Graph (Time) VALUES (%s)", (borrowDate,))
             cursor.execute(
                 "UPDATE Graph SET Borrowed = Borrowed + 1 WHERE Time = %s", (borrowDate,))
         self.connection.commit()
@@ -85,6 +89,7 @@ class DatabaseUtils():
             cursor.execute(
                 "INSERT INTO Events (BookID, ID) VALUES (%s, %s)", (bookID, eventID))
         self.connection.commit()
+        return cursor.rowcount == 1
 
     def deleteEvent(self, bookID):
         with self.connection.cursor() as cursor:
