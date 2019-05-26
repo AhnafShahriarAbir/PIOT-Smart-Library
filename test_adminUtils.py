@@ -33,9 +33,9 @@ class TestDatabaseUtils(unittest.TestCase):
     def test_insertBook(self):
         with DatabaseUtils(self.connection) as db:
             count = self.countBook()
-            self.assertFalse(db.insertBook("Pokemon", "Jack"))
+            self.assertTrue(db.insertBook("Pokemon", "Jack"))
             self.assertTrue(count + 1 == self.countBook())
-            self.assertFalse(db.insertBook("Digimon", "Jones"))
+            self.assertTrue(db.insertBook("Digimon", "Jones"))
             self.assertTrue(count + 2 == self.countBook())
 
     def test_showBook(self):

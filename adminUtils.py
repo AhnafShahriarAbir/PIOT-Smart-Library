@@ -31,6 +31,7 @@ class DatabaseUtils():
             cursor.execute(
                 "INSERT INTO Book (Title, Author) values (%s, %s)", (title, author))
         self.connection.commit()
+        return cursor.rowcount == 1
 
     def deleteBook(self, BookID):
         with self.connection.cursor() as cursor:
