@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>createdTable Doc &#8212; PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '23/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="PIOT SMART LIBRARY MASTER PI 23/05/2019 documentation" href="index.html" />
+    <link rel="next" title="Webapp Doc" href="Webapp.html" />
+    <link rel="prev" title="CalendarEvent Doc" href="calendarEvent.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-createdTable">
+<span id="createdtable-doc"></span><h1>createdTable Doc<a class="headerlink" href="#module-createdTable" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="createdTable.DatabaseUtils">
+<em class="property">class </em><code class="descclassname">createdTable.</code><code class="descname">DatabaseUtils</code><span class="sig-paren">(</span><em>connection=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8220;This class has all the function supporting the library_menu.py , by connecting to the google cloud and required different action.</p>
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.addUser">
+<code class="descname">addUser</code><span class="sig-paren">(</span><em>username</em>, <em>name</em>, <em>email</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.addUser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.addUser" title="Permalink to this definition">¶</a></dt>
+<dd><p>add row to the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.borrowBook">
+<code class="descname">borrowBook</code><span class="sig-paren">(</span><em>bookID</em>, <em>title</em>, <em>userID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.borrowBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.borrowBook" title="Permalink to this definition">¶</a></dt>
+<dd><p>add row to table 
+Update the row[&#8216;Status&#8217;] accordingly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.checkTable">
+<code class="descname">checkTable</code><span class="sig-paren">(</span><em>bookID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.checkTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.checkTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>filter and check row from the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.createBookTable">
+<code class="descname">createBookTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.createBookTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.createBookTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>create the BookTable table with defined parameter and figure</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.createBorrowedBookTable">
+<code class="descname">createBorrowedBookTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.createBorrowedBookTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.createBorrowedBookTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>create the BorrowedBookTable table with defined parameter and figure</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.createEventTable">
+<code class="descname">createEventTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.createEventTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.createEventTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>create the EventTable table with defined parameter and figure</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.createUserTable">
+<code class="descname">createUserTable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.createUserTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.createUserTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>create the UserTable table with defined parameter and figure</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.deleteBook">
+<code class="descname">deleteBook</code><span class="sig-paren">(</span><em>BookID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.deleteBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.deleteBook" title="Permalink to this definition">¶</a></dt>
+<dd><p>delete row to the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.deleteEvent">
+<code class="descname">deleteEvent</code><span class="sig-paren">(</span><em>bookID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.deleteEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.deleteEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>get value in a row and delete with the specific rows in Events table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.eventTable">
+<code class="descname">eventTable</code><span class="sig-paren">(</span><em>bookID</em>, <em>eventID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.eventTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.eventTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add row to the event table accordin to the bookID adn eventID</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.getEventID">
+<code class="descname">getEventID</code><span class="sig-paren">(</span><em>bookID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.getEventID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.getEventID" title="Permalink to this definition">¶</a></dt>
+<dd><p>get value in a row and fetch with the specific rows in Events table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.getUserID">
+<code class="descname">getUserID</code><span class="sig-paren">(</span><em>email</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.getUserID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.getUserID" title="Permalink to this definition">¶</a></dt>
+<dd><p>find and match value in a row from the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.insertBook">
+<code class="descname">insertBook</code><span class="sig-paren">(</span><em>title</em>, <em>author</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.insertBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.insertBook" title="Permalink to this definition">¶</a></dt>
+<dd><p>add value to the table</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.returnBook">
+<code class="descname">returnBook</code><span class="sig-paren">(</span><em>bookID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.returnBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.returnBook" title="Permalink to this definition">¶</a></dt>
+<dd><p>get value in a row and delet with the specific rows in BookBorrowed table
+Update the row[&#8216;Status&#8217;] accordingly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.searchBook">
+<code class="descname">searchBook</code><span class="sig-paren">(</span><em>bookName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.searchBook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.searchBook" title="Permalink to this definition">¶</a></dt>
+<dd><p>get value in a row and fetch with all satisfied rows</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="createdTable.DatabaseUtils.showBorrowedBooks">
+<code class="descname">showBorrowedBooks</code><span class="sig-paren">(</span><em>userID</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/createdTable.html#DatabaseUtils.showBorrowedBooks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#createdTable.DatabaseUtils.showBorrowedBooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>get value in a row and fetch with all satisfied rows</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="calendarEvent.html" title="previous chapter">CalendarEvent Doc</a></li>
+      <li>Next: <a href="Webapp.html" title="next chapter">Webapp Doc</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/createdTable.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/createdTable.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="English">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>server &#8212; PIOT SMART LBRARY 22/05/2019 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '22/05/2019',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="PIOT SMART LBRARY 22/05/2019 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for server</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    PIOT SMART LIBRARY </span>
+<span class="sd">    ~~~~~~~~~</span>
+<span class="sd">    This part is setteing configuration for Master pi</span>
+<span class="sd">    :copyright: © 2019 by the PIOT group 54 team.</span>
+<span class="sd">    :license: BSD, see LICENSE for more details.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#!/usr/bin/env python3</span>
+<span class="c1"># Reference: https://realpython.com/python-sockets/</span>
+<span class="c1"># Documentation: https://docs.python.org/3/library/socket.html</span>
+
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">library_menu</span> <span class="k">import</span> <span class="n">library_menu</span>
+<span class="sd">&quot;&quot;&quot;HOST = &quot;&quot; # Empty string means to listen on all IP&#39;s on the machine, also works with IPv6.</span>
+<span class="sd">             # Note &quot;0.0.0.0&quot; also works but only with IPv4.</span>
+<span class="sd">    PORT = 65000 # Port to listen on (non-privileged ports are &gt; 1023).</span>
+<span class="sd">    # default port for socket</span>
+
+<span class="sd">    ADDRESS(HOST,PORT)</span>
+<span class="sd">    In this example, we’re using socket.AF_INET (IPv4). So it expects a 2-tuple: (HOST,PORT).</span>
+<span class="sd">    host can be a hostname, IP address, or empty string. If an IP address is used, host should be an IPv4-formatted address string.</span>
+<span class="sd">    The IP address 127.0.0.1 is the standard IPv4 address for the loopback interface, so only processes on the host will be able to connect to the server. </span>
+<span class="sd">    If you pass an empty string, the server will accept connections on all available IPv4 interfaces.</span>
+<span class="sd">    port should be an integer from 1-65535 (0 is reserved). It’s the TCP port number to accept connections on from clients. </span>
+<span class="sd">    Some systems may require superuser privileges if the port is &lt; 1024.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">HOST</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<span class="n">PORT</span> <span class="o">=</span> <span class="mi">65001</span>
+<span class="n">ADDRESS</span> <span class="o">=</span> <span class="p">(</span><span class="n">HOST</span><span class="p">,</span> <span class="n">PORT</span><span class="p">)</span>
+
+<div class="viewcode-block" id="server"><a class="viewcode-back" href="../server.html#server.server">[docs]</a><span class="k">class</span> <span class="nc">server</span><span class="p">():</span>
+<div class="viewcode-block" id="server.main"><a class="viewcode-back" href="../server.html#server.server.main">[docs]</a>    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;To make the socket server side into a while-for loop, it will not terminal the server and keep it loop</span>
+<span class="sd">        so it will keep listening the client request and make accodingly message sent/received.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">ADDRESS</span><span class="p">)</span> <span class="c1">#: The values passed to bind() depend on the address family of the socket. </span>
+            <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">()</span>  <span class="c1">#: Listen to incoming requests on that ip and port.</span>
+                        <span class="c1">#: A server has a listen() method which puts the server into listen mode. </span>
+                        <span class="c1">#: This allows the server to listen to incoming connections.</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Listening on </span><span class="si">{}</span><span class="s2">...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ADDRESS</span><span class="p">))</span>
+                <span class="n">conn</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span> <span class="c1">#: A server has an accept().The accept method initiates a connection with the client.</span>
+
+                <span class="k">with</span> <span class="n">conn</span><span class="p">:</span>
+                    <span class="c1">#  After getting the client socket object conn from accept(), an infinite while loop is used to loop over blocking calls to conn.recv(). </span>
+                    <span class="c1">#: This reads whatever data the client sends and echoes it back using conn.sendall().</span>
+                    <span class="c1">#: If conn.recv() returns an empty bytes object, b&#39;&#39;, then the client closed the connection and the loop is terminated. </span>
+                    <span class="c1">#: The with statement is used with conn to automatically close the socket at the end of the block.</span>
+
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+                    <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">data</span><span class="p">):</span>
+                        <span class="k">break</span> <span class="c1">#: disconnect wit the server and terminate the while loop.</span>
+                    
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User connected: &quot;</span> <span class="o">+</span> <span class="n">user</span><span class="p">)</span>
+                    <span class="n">library_menu</span><span class="o">.</span><span class="n">display_menu</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+                    <span class="nb">str</span> <span class="o">=</span><span class="s2">&quot;logout&quot;</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="n">sendall</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span></div></div>
+        
+
+<span class="c1"># Execute program.</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">sEver</span><span class="o">=</span><span class="n">server</span><span class="p">()</span>
+    <span class="n">sEver</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, G54.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

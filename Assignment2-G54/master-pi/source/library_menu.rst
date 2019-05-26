@@ -1,0 +1,6 @@
+library menu Doc
+================
+
+.. module:: library_menu
+.. autoclass:: library_menu
+    :members:
