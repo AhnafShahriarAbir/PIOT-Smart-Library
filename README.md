@@ -15,10 +15,12 @@ These instructions will get you a copy of the project up and running on your loc
 -Raspberry Pi model 3 B/B+ may be used
 -WinSCP
 -Putty
+-Terminal
+-Webcam
 ```
 # Installing
 -Python3 https://www.python.org/downloads/
-
+	more python3 libraries installation please refer to the commented block
 
 # Running the tests
 ```
